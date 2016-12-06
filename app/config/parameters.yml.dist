@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    env(CTP_CLIENT_ID): ~
+    env(CTP_CLIENT_SECRET): ~
+    env(CTP_PROJECT): ~

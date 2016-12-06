@@ -10,3 +10,6 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: 6c68e9e5fd85b55ccdc26365d8c741a48a075ffe
+    env(CTP_CLIENT_ID): oT_jBzzoj-a605wICkjojjmM
+    env(CTP_CLIENT_SECRET): mu0UCltK3QODeafmvK0O7XKGBuD_5Jgi
+    env(CTP_PROJECT): shopmacher-training-jens-91
