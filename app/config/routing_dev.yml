@@ -16,3 +16,7 @@ _main:
 _example:
     prefix: /_example
     resource: "@CtpBundle/Resources/config/routing.yml"
+
+commercetools_training:
+    resource: "@CommercetoolsTrainingBundle/Resources/config/routing.xml"
+    prefix:   /training
