@@ -1,0 +1,6 @@
+{
+    "require": {
+        "commercetools/php-sdk": "^1.5",
+        "cache/filesystem-adapter": "^0.3.2"
+    }
+}
