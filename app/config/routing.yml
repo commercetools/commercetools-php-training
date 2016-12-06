@@ -1,3 +1,7 @@
+commercetools_training:
+    resource: "@CommercetoolsTrainingBundle/Resources/config/routing.xml"
+    prefix:   /training
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
