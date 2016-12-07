@@ -4,15 +4,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
-    <services>
-        <service id="commercetools_training.example" class="Commercetools\TrainingBundle\Example">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
-        </service>
-    </services>
-    -->
     <services>
         <service class="Commercetools\TrainingBundle\Service\TypeRepository" id="commercetools_training.service.type_repository">
             <argument type="service" id="commercetools.client"/>
@@ -32,6 +23,10 @@
         <service class="Commercetools\TrainingBundle\Service\CartRepository" id="commercetools_training.service.cart_repository">
             <argument id="commercetools.client" type="service"/>
             <argument id="commercetools_training.service.type_repository" type="service"/>
+        </service>
+        <service class="Commercetools\TrainingBundle\Service\ProductRepository" id="commercetools_training.service.product_repository">
+            <argument id="commercetools.client" type="service"/>
+            <argument id="commercetools.search" type="service"/>
         </service>
     </services>
 </container>

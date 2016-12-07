@@ -1,24 +1,25 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/security.html
 security:
-
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
-    providers:
-        in_memory:
-            memory: ~
-
-    firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+  providers:
+    ctp:
+      id: commercetools.user_provider
+  access_control:
+  - { path: /user/, roles: ROLE_USER }
+  encoders:
+    Symfony\Component\Security\Core\User\User: plaintext
+    Commercetools\Symfony\CtpBundle\Security\User\User: plaintext
+  firewalls:
+    main:
+      anonymous: ~
+      commercetools-login:
+        login_path: training_login_route
+        check_path: training_login_check
+      logout:
+        path:   training_logout
+        target: _ctp_training_index
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    default:
+      anonymous: ~

@@ -1,0 +1,25 @@
+{% extends "CommercetoolsTrainingBundle::layout.html.twig" %}
+
+{% block container %}
+    <div class="search-container">
+            <div id="search-results" class="row"> </div>
+            <div class="loading">
+                <div class="loader"></div>
+            </div>
+    </div>
+
+
+    <div class="row" id="index-results">
+        {% for product in products %}
+            <div class="col-md-6">
+                <a href="{{ path('_ctp_training_product', {id: product.getId}) }}">
+                    <h3>{{ product.getName }}</h3>
+                    <img src="{{ product.getMasterVariant.getImages.current.getUrl | default('') }}" width="100">
+                    <p>{{ product.getDescription }}</p>
+                    <p>{{ product.getMasterVariant.getPrice.getValue }}</p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

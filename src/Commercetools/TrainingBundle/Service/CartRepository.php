@@ -28,4 +28,46 @@ class CartRepository
     {
         return null;
     }
+
+    /**
+     * @param Cart $cart
+     * @param $productId
+     * @param $variantId
+     * @param $quantity
+     * @return Cart
+     */
+    public function addLineItem(Cart $cart, $productId, $variantId, $quantity)
+    {
+        return null;
+    }
+
+    /**
+     * @param Cart $cart
+     * @param $lineItemId
+     * @param $quantity
+     * @return Cart
+     */
+    public function changeLineItemQuantity(Cart $cart, $lineItemId, $quantity)
+    {
+        return null;
+    }
+
+    /**
+     * @param Cart $cart
+     * @param $lineItemId
+     * @return Cart
+     */
+    public function removeLineItem(Cart $cart, $lineItemId)
+    {
+        return null;
+    }
+
+    /**
+     * @param $cartId
+     * @return Cart
+     */
+    public function getCart($cartId)
+    {
+        return null;
+    }
 }
