@@ -1,4 +1,5 @@
-training2
+Commercetools PHP training repository
 =========
 
-A Symfony project created on December 6, 2016, 11:00 am.
+This project aims to get a quick intro to the Commercetools Platform.
+To achieve this the project uses a preconfigured Symfony 3.2 application with the Commercetools Symfony Bundle.
