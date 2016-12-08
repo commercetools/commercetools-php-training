@@ -21,15 +21,7 @@ class TypeRepository
     /**
      * @return Type
      */
-    public function getGeoType()
-    {
-        return null;
-    }
-
-    /**
-     * @return Type
-     */
-    public function getOrderType()
+    public function getCheckReserveType()
     {
         return null;
     }

@@ -106,4 +106,19 @@ class CartRepositoryTest extends TrainingTestCase
         $this->assertInstanceOf(Cart::class, $cart);
         $this->assertSame($createCart->getId(), $cart->getId());
     }
+
+    public function testGetOrCreateCart()
+    {
+        $typeRepository = $this->container->get('commercetools_training.service.type_repository');
+        $checkReserveType = $typeRepository->getCheckReserveType();
+
+        $repository = $this->container->get('commercetools_training.service.cart_repository');
+        
+        $cart = $repository->getOrCreateCart();
+        
+        $this->assertInstanceOf(Cart::class, $cart);
+        $this->assertNotNull($cart->getId());
+        
+        $this->assertSame($checkReserveType->getId(), $cart->getCustom()->getType()->getId());
+    }
 }

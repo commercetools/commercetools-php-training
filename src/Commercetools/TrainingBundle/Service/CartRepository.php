@@ -70,4 +70,13 @@ class CartRepository
     {
         return null;
     }
+
+    /**
+     * @param null $cartId
+     * @return Cart
+     */
+    public function getOrCreateCart($cartId = null)
+    {
+        return null;
+    }
 }
