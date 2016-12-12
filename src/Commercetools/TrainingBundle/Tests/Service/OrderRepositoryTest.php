@@ -25,7 +25,7 @@ class OrderRepositoryTest extends TrainingTestCase
     {
         $cartRepository = $this->container->get('commercetools_training.service.cart_repository');
         $productRepository = $this->container->get('commercetools_training.service.product_repository');
-        $product = $productRepository->getProducts()->current();
+        $product = $productRepository->getProducts()->toObject()->current();
 
         $cartDraft = CartDraft::ofCurrency('EUR')->setShippingAddress(Address::of()->setCountry('DE'));
         $cartDraft->setLineItems(
@@ -52,7 +52,7 @@ class OrderRepositoryTest extends TrainingTestCase
     {
         $orderRepository = $this->container->get('commercetools_training.service.order_repository');
         $productRepository = $this->container->get('commercetools_training.service.product_repository');
-        $product = $productRepository->getProducts()->current();
+        $product = $productRepository->getProducts()->toObject()->current();
 
         $importOrder = ImportOrder::of();
         $importOrder->setTotalPrice(Money::ofCurrencyAndAmount('EUR', 100));

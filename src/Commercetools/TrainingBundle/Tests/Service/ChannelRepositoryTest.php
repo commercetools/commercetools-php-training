@@ -33,9 +33,10 @@ class ChannelRepositoryTest extends TrainingTestCase
     {
         $repository = $this->container->get('commercetools_training.service.channel_repository');
 
-        $channelDraft = ChannelDraft::ofKey('training' . time());
+        $channelDraft = ChannelDraft::ofKey('training-get' . time());
 
         $createChannel = $repository->createChannel($channelDraft);
+        $this->assertInstanceOf(Channel::class, $createChannel);
 
         $channel = $repository->getChannel($channelDraft->getKey());
         $this->assertInstanceOf(Channel::class, $channel);
@@ -49,7 +50,7 @@ class ChannelRepositoryTest extends TrainingTestCase
 
         $repository = $this->container->get('commercetools_training.service.channel_repository');
 
-        $channelDraft = ChannelDraft::ofKey('training' . time());
+        $channelDraft = ChannelDraft::ofKey('training-query' . time());
         $channelDraft->setGeoLocation(
             GeoPoint::of()->setCoordinates($friedrichstadtPalast)
         );

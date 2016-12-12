@@ -16,7 +16,7 @@ use Commercetools\TrainingBundle\Tests\TrainingTestCase;
 
 class TypeRepositoryTest extends TrainingTestCase
 {
-    public function testGetOrderType()
+    public function testGetCheckReserveType()
     {
         $repository = $this->container->get('commercetools_training.service.type_repository');
         /**
@@ -44,7 +44,7 @@ class TypeRepositoryTest extends TrainingTestCase
             'trainingType'.time(),
             LocalizedString::ofLangAndText('en', 'Training Type'),
             LocalizedString::ofLangAndText('en', 'Training Type'),
-            ['product']
+            ['category']
         );
         $type = $repository->createType($typeDraft);
 

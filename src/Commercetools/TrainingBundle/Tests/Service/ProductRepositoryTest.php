@@ -55,6 +55,6 @@ class ProductRepositoryTest extends TrainingTestCase
         $product = $repository->getProductById($products->current()->getId());
 
         $this->assertInstanceOf(ProductProjection::class, $products->current());
-        $this->assertInstanceOf($products->current()->getId(), $product->getId());
+        $this->assertSame($products->current()->getId(), $product->getId());
     }
 }

@@ -38,19 +38,20 @@ class CartRepositoryTest extends TrainingTestCase
 
         $productRepository = $this->container->get('commercetools_training.service.product_repository');
 
-        $product = $productRepository->getProducts()->current();
+        $product = $productRepository->getProducts()->toObject()->current();
 
         $cart = $repository->addLineItem($createCart, $product->getId(), $product->getMasterVariant()->getId(), 1);
         $this->assertInstanceOf(Cart::class, $cart);
-        $this->assertNotSame($createCart->getId(), $cart->getId());
-        $this->assertCount(1, $cart->getLineItemCount());
+        $this->assertSame($createCart->getId(), $cart->getId());
+        $this->assertNotSame($createCart->getVersion(), $cart->getVersion());
+        $this->assertSame(1, $cart->getLineItemCount());
     }
 
     public function testChangeLineItemQuantity()
     {
         $repository = $this->container->get('commercetools_training.service.cart_repository');
         $productRepository = $this->container->get('commercetools_training.service.product_repository');
-        $product = $productRepository->getProducts()->current();
+        $product = $productRepository->getProducts()->toObject()->current();
 
         $cartDraft = CartDraft::ofCurrency('EUR')->setShippingAddress(Address::of()->setCountry('DE'));
         $cartDraft->setLineItems(
@@ -64,30 +65,35 @@ class CartRepositoryTest extends TrainingTestCase
 
         $cart = $repository->changeLineItemQuantity($createCart, $createCart->getLineItems()->current()->getId(), 2);
         $this->assertInstanceOf(Cart::class, $cart);
-        $this->assertNotSame($createCart->getId(), $cart->getId());
-        $this->assertCount(2, $cart->getLineItemCount());
-        $this->assertSame(2, $createCart->getLineItems()->current()->getQuantity());
+        $this->assertSame($createCart->getId(), $cart->getId());
+        $this->assertNotSame($createCart->getVersion(), $cart->getVersion());
+        $this->assertSame(2, $cart->getLineItems()->current()->getQuantity());
+        $this->assertSame(2, $cart->getLineItemCount());
     }
 
     public function testRemoveLineItem()
     {
         $repository = $this->container->get('commercetools_training.service.cart_repository');
         $productRepository = $this->container->get('commercetools_training.service.product_repository');
-        $product = $productRepository->getProducts()->current();
+        $product = $productRepository->getProducts()->toObject()->current();
 
         $cartDraft = CartDraft::ofCurrency('EUR')->setShippingAddress(Address::of()->setCountry('DE'));
         $cartDraft->setLineItems(
-            LineItemDraft::of()->setProductId($product->getId())
-                ->setVariantId($product->getMasterVariant()->getId())
-                ->setQuantity(1)
+            LineItemDraftCollection::of()->add(
+                LineItemDraft::of()
+                    ->setProductId($product->getId())
+                    ->setVariantId($product->getMasterVariant()->getId())
+                    ->setQuantity(1)
+            )
         );
         $createCart = $repository->createCart($cartDraft);
 
         $cart = $repository->removeLineItem($createCart, $createCart->getLineItems()->current()->getId());
         $this->assertInstanceOf(Cart::class, $cart);
-        $this->assertNotSame($createCart->getId(), $cart->getId());
-        $this->assertCount(0, $cart->getLineItemCount());
-        $this->assertCount(0, $createCart->getLineItems());
+        $this->assertSame($createCart->getId(), $cart->getId());
+        $this->assertNotSame($createCart->getVersion(), $cart->getVersion());
+        $this->assertCount(0, $cart->getLineItems());
+        $this->assertSame(0, $cart->getLineItemCount());
     }
 
     public function testGetCart()
