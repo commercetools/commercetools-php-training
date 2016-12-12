@@ -8,8 +8,26 @@
             </div>
     </div>
 
-
     <div class="row" id="index-results">
+        <div class="col-md-2">
+        {% if facets is defined %}
+            <form>
+                {% for facetName, facet in facets %}
+                    {{ facetName }}
+                    <ul>
+                        {% for value in facet %}
+                            <li>
+                                <input name="{{ facetName }}" id="{{ facetName }}-{{ value }}" type="checkbox" value="{{ value }}">
+                                <label for="{{ facetName }}-{{ value }}">{{ value }}</label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+                <button>Filter</button>
+            </form>
+        {% endif %}
+        </div>
+        <div class="col-md-10">
         {% for product in products %}
             <div class="col-md-6">
                 <a href="{{ path('_ctp_training_product', {id: product.getId}) }}">
@@ -20,6 +38,7 @@
                 </a>
             </div>
         {% endfor %}
+        </div>
     </div>
 
 {% endblock %}

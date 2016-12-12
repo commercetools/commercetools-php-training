@@ -9,6 +9,7 @@ use Commercetools\Core\Client;
 use Commercetools\Core\Model\Product\ProductProjection;
 use Commercetools\Core\Model\Product\ProductProjectionCollection;
 use Commercetools\Core\Request\Products\ProductProjectionSearchRequest;
+use Commercetools\Core\Response\PagedSearchResponse;
 use Commercetools\Symfony\CtpBundle\Model\Search;
 use GuzzleHttp\Psr7\Uri;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,12 +27,13 @@ class ProductRepository
 
     /**
      * @param Request $request
-     * @return ProductProjectionCollection
+     * @return PagedSearchResponse
      */
     public function getProducts(Request $request = null)
     {
         return null;
     }
+
 
     /**
      * @param string $productId

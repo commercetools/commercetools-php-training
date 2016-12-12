@@ -8,6 +8,7 @@ namespace Commercetools\TrainingBundle\Tests\Service;
 
 
 use Commercetools\Core\Model\Product\ProductProjection;
+use Commercetools\Core\Model\Product\ProductProjectionCollection;
 use Commercetools\Core\Request\Products\ProductProjectionSearchRequest;
 use Commercetools\TrainingBundle\Tests\TrainingTestCase;
 use GuzzleHttp\Psr7\Uri;
@@ -37,8 +38,9 @@ class ProductRepositoryTest extends TrainingTestCase
     {
         $repository = $this->container->get('commercetools_training.service.product_repository');
         
-        $products = $repository->getProducts();
+        $products = $repository->getProducts()->toObject();
 
+        $this->assertInstanceOf(ProductProjectionCollection::class, $products);
         $this->assertInstanceOf(ProductProjection::class, $products->current());
     }
 
@@ -46,7 +48,7 @@ class ProductRepositoryTest extends TrainingTestCase
     {
         $repository = $this->container->get('commercetools_training.service.product_repository');
 
-        $products = $repository->getProducts();
+        $products = $repository->getProducts()->toObject();
 
         $this->assertInstanceOf(ProductProjection::class, $products->current());
 

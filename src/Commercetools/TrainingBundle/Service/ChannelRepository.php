@@ -13,12 +13,10 @@ use Commercetools\Core\Model\Channel\ChannelDraft;
 class ChannelRepository
 {
     private $client;
-    private $types;
 
-    public function __construct(Client $client, TypeRepository $types)
+    public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->types = $types;
     }
 
     /**
@@ -40,13 +38,12 @@ class ChannelRepository
     }
 
     /**
-     * @param $topLat
-     * @param $topLng
-     * @param $bottomLat
-     * @param $bottomLng
+     * @param $lng
+     * @param $lat
+     * @param $distance
      * @return ChannelCollection
      */
-    public function queryChannelsByBound($topLat, $topLng, $bottomLat, $bottomLng)
+    public function queryChannelsAtLocation($lng, $lat, $distance)
     {
         return null;
     }

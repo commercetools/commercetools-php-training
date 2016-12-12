@@ -10,6 +10,7 @@ use Commercetools\Core\Model\Common\Price;
 use Commercetools\Core\Model\Product\ProductProjection;
 use Commercetools\Core\Model\Product\ProductProjectionCollection;
 use Commercetools\Core\Model\Product\ProductVariant;
+use GuzzleHttp\Psr7\Uri;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,6 +26,17 @@ class CatalogController extends Controller
          gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
 
         $context = $this->get('commercetools.context.factory')->build($request->getLocale());
+
+        $facets = [
+            'size' => [
+                '34',
+                '35',
+            ],
+            'color' => [
+                'blue',
+                'red'
+            ]
+        ];
         $products = ProductProjectionCollection::of()->setContext($context)
             ->add(
                 ProductProjection::of()
@@ -65,7 +77,7 @@ class CatalogController extends Controller
                     )
             )
         ;
-        return $this->render('@CommercetoolsTraining/catalog/index.html.twig', ['products' => $products]);
+        return $this->render('@CommercetoolsTraining/catalog/index.html.twig', ['products' => $products, 'facets' => $facets]);
     }
 
     public function detailAction(Request $request)

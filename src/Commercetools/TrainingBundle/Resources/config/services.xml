@@ -10,7 +10,6 @@
         </service>
         <service class="Commercetools\TrainingBundle\Service\ChannelRepository" id="commercetools_training.service.channel_repository">
             <argument id="commercetools.client" type="service"/>
-            <argument type="service" id="commercetools_training.service.type_repository"/>
         </service>
         <service class="Commercetools\TrainingBundle\Service\OrderRepository" id="commercetools_training.service.order_repository">
             <argument id="commercetools.client" type="service"/>
@@ -27,6 +26,9 @@
         <service class="Commercetools\TrainingBundle\Service\ProductRepository" id="commercetools_training.service.product_repository">
             <argument id="commercetools.client" type="service"/>
             <argument id="commercetools.search" type="service"/>
+        </service>
+        <service class="Commercetools\TrainingBundle\Service\CustomObjectRepository" id="commercetools_training.service.custom_object_repository">
+            <argument id="commercetools.client" type="service"/>
         </service>
     </services>
 </container>

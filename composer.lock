@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c2f613c11329ed6fa17a937c01702f0f",
-    "content-hash": "6176d91030307b03bf649a0b7110fa37",
+    "hash": "a1e4b9a9ffc79ef1c43ea2b10a221104",
+    "content-hash": "407487f69ca6236c01706e18d50e9e38",
     "packages": [
         {
             "name": "commercetools/commons",
@@ -48,16 +48,16 @@
         },
         {
             "name": "commercetools/php-sdk",
-            "version": "v1.5.1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/commercetools/commercetools-php-sdk.git",
-                "reference": "d31d97e025e457bc5df0fc0995854d6d4023afa1"
+                "reference": "5710ffd44118dcbfa9168c8dded07d1c7f3a79d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/commercetools/commercetools-php-sdk/zipball/d31d97e025e457bc5df0fc0995854d6d4023afa1",
-                "reference": "d31d97e025e457bc5df0fc0995854d6d4023afa1",
+                "url": "https://api.github.com/repos/commercetools/commercetools-php-sdk/zipball/5710ffd44118dcbfa9168c8dded07d1c7f3a79d4",
+                "reference": "5710ffd44118dcbfa9168c8dded07d1c7f3a79d4",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +92,7 @@
             "type": "project",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "1.5-dev"
+                    "dev-develop": "1.6-dev"
                 },
                 "incenteev-parameters": [
                     {
@@ -126,7 +126,7 @@
             ],
             "description": "The commercetools PHP SDK  The official PHP Interface to the commercetools eCommerce API",
             "homepage": "https://github.com/commercetools/commercetools-php-sdk",
-            "time": "2016-11-21 15:29:35"
+            "time": "2016-12-09 14:25:02"
         },
         {
             "name": "commercetools/symfony-bundle",
@@ -1839,16 +1839,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.2",
+            "version": "5.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "336aff0ac52e306c98e7455bc3e8d7b0bf777a5e"
+                "reference": "de164acc2f2bb0b79beb892a36260264b2a03233"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/336aff0ac52e306c98e7455bc3e8d7b0bf777a5e",
-                "reference": "336aff0ac52e306c98e7455bc3e8d7b0bf777a5e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/de164acc2f2bb0b79beb892a36260264b2a03233",
+                "reference": "de164acc2f2bb0b79beb892a36260264b2a03233",
                 "shasum": ""
             },
             "require": {
@@ -1859,7 +1859,7 @@
                 "ext-xml": "*",
                 "myclabs/deep-copy": "~1.3",
                 "php": "^5.6 || ^7.0",
-                "phpspec/prophecy": "^1.3.1",
+                "phpspec/prophecy": "^1.6.2",
                 "phpunit/php-code-coverage": "^4.0.3",
                 "phpunit/php-file-iterator": "~1.4",
                 "phpunit/php-text-template": "~1.2",
@@ -1917,20 +1917,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-12-03 08:33:00"
+            "time": "2016-12-09 02:48:53"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.4.2",
+            "version": "3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "90a08f5deed5f7ac35463c161f2e8fa0e5652faf"
+                "reference": "3ab72b65b39b491e0c011e2e09bb2206c2aa8e24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/90a08f5deed5f7ac35463c161f2e8fa0e5652faf",
-                "reference": "90a08f5deed5f7ac35463c161f2e8fa0e5652faf",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3ab72b65b39b491e0c011e2e09bb2206c2aa8e24",
+                "reference": "3ab72b65b39b491e0c011e2e09bb2206c2aa8e24",
                 "shasum": ""
             },
             "require": {
@@ -1976,7 +1976,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2016-11-27 07:52:03"
+            "time": "2016-12-08 20:27:08"
         },
         {
             "name": "pimple/pimple",
@@ -3715,7 +3715,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "commercetools/php-sdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

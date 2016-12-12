@@ -9,6 +9,7 @@ namespace Commercetools\TrainingBundle\Tests\Service;
 use Commercetools\Core\Model\Channel\Channel;
 use Commercetools\Core\Model\Channel\ChannelCollection;
 use Commercetools\Core\Model\Channel\ChannelDraft;
+use Commercetools\Core\Model\Common\GeoPoint;
 use Commercetools\Core\Model\CustomField\CustomFieldObjectDraft;
 use Commercetools\Core\Model\CustomField\FieldContainer;
 use Commercetools\Core\Model\Type\Type;
@@ -43,23 +44,19 @@ class ChannelRepositoryTest extends TrainingTestCase
 
     public function testQueryChannels()
     {
-        $repository = $this->container->get('commercetools_training.service.type_repository');
-        /**
-         * @var Type $type
-         */
-        $type = $repository->getGeoType();
+        $friedrichstadtPalast = [13.38881, 52.52394];
+        $brandenburgerTor = [13.37770, 52.51627];
 
         $repository = $this->container->get('commercetools_training.service.channel_repository');
 
         $channelDraft = ChannelDraft::ofKey('training' . time());
-        $channelDraft->setCustom(
-            CustomFieldObjectDraft::ofTypeKey($type->getKey())
-                ->setFields(FieldContainer::of()->setLat(52.520007)->setLng(13.404954))
+        $channelDraft->setGeoLocation(
+            GeoPoint::of()->setCoordinates($friedrichstadtPalast)
         );
 
         $createChannel = $repository->createChannel($channelDraft);
 
-        $channels = $repository->queryChannelsByBound(52, 13, 53, 14);
+        $channels = $repository->queryChannelsAtLocation($brandenburgerTor[0], $brandenburgerTor[1], 1500);
 
         $this->assertInstanceOf(ChannelCollection::class, $channels);
         $channel = $channels->getById($createChannel->getId());
