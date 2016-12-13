@@ -8,6 +8,8 @@ namespace Commercetools\TrainingBundle\Service;
 use Commercetools\Core\Client;
 use Commercetools\Core\Model\Product\ProductProjection;
 use Commercetools\Core\Model\Product\ProductProjectionCollection;
+use Commercetools\Core\Request\Products\ProductProjectionByIdGetRequest;
+use Commercetools\Core\Request\Products\ProductProjectionQueryRequest;
 use Commercetools\Core\Request\Products\ProductProjectionSearchRequest;
 use Commercetools\Core\Response\PagedSearchResponse;
 use Commercetools\Symfony\CtpBundle\Model\Search;
@@ -31,7 +33,9 @@ class ProductRepository
      */
     public function getProducts(Request $request = null)
     {
-        return null;
+        $request = ProductProjectionSearchRequest::of()->currency('EUR');
+        $response = $this->client->execute($request);
+        return $response;
     }
 
 
@@ -41,7 +45,11 @@ class ProductRepository
      */
     public function getProductById($productId)
     {
-        return null;
+        $request = ProductProjectionByIdGetRequest::ofId($productId)->currency('EUR');
+        $response = $this->client->execute($request);
+        $product = $request->mapFromResponse($response);
+
+        return $product;
     }
 
     /**

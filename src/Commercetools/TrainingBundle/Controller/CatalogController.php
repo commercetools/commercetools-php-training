@@ -18,12 +18,12 @@ class CatalogController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $description = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-         ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-         rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-         sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-         aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-         gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
+        $repository = $this->get('commercetools_training.service.product_repository');
+
+        $response = $repository->getProducts($request);
+
+        $products = $response->toObject();
+
 
         $context = $this->get('commercetools.context.factory')->build($request->getLocale());
 
@@ -37,76 +37,19 @@ class CatalogController extends Controller
                 'red'
             ]
         ];
-        $products = ProductProjectionCollection::of()->setContext($context)
-            ->add(
-                ProductProjection::of()
-                    ->setId('123456')
-                    ->setName(LocalizedString::ofLangAndText('en', 'Test'))
-                    ->setDescription(LocalizedString::ofLangAndText('en', $description))
-                    ->setMasterVariant(
-                        ProductVariant::of()
-                            ->setPrice(
-                                Price::ofMoney(Money::ofCurrencyAndAmount('EUR', 100))
-                            )
-                            ->setImages(
-                                ImageCollection::of()->add(
-                                    Image::of()->setUrl(
-                                        'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072595_1_large.jpg'
-                                    )
-                                )
-                            )
-                    )
-            )
-            ->add(
-                ProductProjection::of()
-                    ->setId('789012')
-                    ->setName(LocalizedString::ofLangAndText('en', 'Test2'))
-                    ->setDescription(LocalizedString::ofLangAndText('en', $description))
-                    ->setMasterVariant(
-                        ProductVariant::of()
-                            ->setPrice(
-                                Price::ofMoney(Money::ofCurrencyAndAmount('EUR', 100))
-                            )
-                            ->setImages(
-                                ImageCollection::of()->add(
-                                    Image::of()->setUrl(
-                                        'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/079639_1_medium.jpg'
-                                    )
-                                )
-                            )
-                    )
-            )
-        ;
+
         return $this->render('@CommercetoolsTraining/catalog/index.html.twig', ['products' => $products, 'facets' => $facets]);
     }
 
     public function detailAction(Request $request)
     {
-        $description = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-         ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-         rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-         sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-         aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-         gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
+        $repository = $this->get('commercetools_training.service.product_repository');
+
         $context = $this->get('commercetools.context.factory')->build($request->getLocale());
 
-        $product = ProductProjection::of()->setContext($context)
-            ->setId('123456')
-            ->setName(LocalizedString::ofLangAndText('en', 'Test'))
-            ->setDescription(LocalizedString::ofLangAndText('en', $description))
-            ->setMasterVariant(
-                ProductVariant::of()
-                    ->setPrice(
-                        Price::ofMoney(Money::ofCurrencyAndAmount('EUR', 100))
-                    )
-                    ->setImages(
-                        ImageCollection::of()->add(
-                            Image::of()->setUrl(
-                                'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072595_1_large.jpg'
-                            )
-                        )
-                    )
-            );
+        $product = $repository->getProductById($request->get('id'));
+        $product->setContext($context);
+
         return $this->render('@CommercetoolsTraining/catalog/product.html.twig', ['product' => $product]);
     }
 }
