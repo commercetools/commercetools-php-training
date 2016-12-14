@@ -24,4 +24,18 @@ class InventoryRepositoryTest extends TrainingTestCase
         $this->assertSame($inventoryDraft->getSku(), $inventory->getSku());
         $this->assertSame($inventoryDraft->getQuantityOnStock(), $inventory->getQuantityOnStock());
     }
+
+    public function testGetInventory()
+    {
+        $repository = $this->container->get('commercetools_training.service.inventory_repository');
+
+        $inventoryDraft = InventoryDraft::ofSkuAndQuantityOnStock('DEF'.time(), 1);
+        $createInventory = $repository->createInventory($inventoryDraft);
+
+        $this->assertInstanceOf(InventoryEntry::class, $createInventory);
+
+        $inventory = $repository->getInventory($inventoryDraft->getSku());
+        $this->assertInstanceOf(InventoryEntry::class, $inventory);
+        $this->assertSame($createInventory->getId(), $inventory->getId());
+    }
 }
