@@ -9,6 +9,7 @@ namespace Commercetools\TrainingBundle\Tests\Service;
 use Commercetools\Core\Model\Channel\Channel;
 use Commercetools\Core\Model\Channel\ChannelCollection;
 use Commercetools\Core\Model\Channel\ChannelDraft;
+use Commercetools\Core\Model\Channel\ChannelRole;
 use Commercetools\Core\Model\Common\GeoPoint;
 use Commercetools\Core\Model\CustomField\CustomFieldObjectDraft;
 use Commercetools\Core\Model\CustomField\FieldContainer;
@@ -22,6 +23,7 @@ class ChannelRepositoryTest extends TrainingTestCase
         $repository = $this->container->get('commercetools_training.service.channel_repository');
 
         $channelDraft = ChannelDraft::ofKey('training' . time());
+        $channelDraft->setRoles([ChannelRole::INVENTORY_SUPPLY, ChannelRole::PRODUCT_DISTRIBUTION]);
 
         $channel = $repository->createChannel($channelDraft);
         $this->assertInstanceOf(Channel::class, $channel);
