@@ -6,6 +6,7 @@
 namespace Commercetools\TrainingBundle\Service;
 
 use Commercetools\Core\Client;
+use Commercetools\Core\Error\ConcurrentModificationError;
 use Commercetools\Core\Model\Cart\Cart;
 use Commercetools\Core\Model\Cart\CartDraft;
 use Commercetools\Core\Model\Common\Address;
