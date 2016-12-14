@@ -9,6 +9,9 @@ use Commercetools\Core\Client;
 use Commercetools\Core\Model\Channel\Channel;
 use Commercetools\Core\Model\Channel\ChannelCollection;
 use Commercetools\Core\Model\Channel\ChannelDraft;
+use Commercetools\Core\Request\Channels\ChannelCreateRequest;
+use Commercetools\Core\Request\Channels\ChannelQueryRequest;
+use Commercetools\Core\Request\Orders\OrderQueryRequest;
 
 class ChannelRepository
 {
@@ -25,7 +28,13 @@ class ChannelRepository
      */
     public function getChannel($key)
     {
-        return null;
+        $request = ChannelQueryRequest::of()->where(sprintf('key = "%s"', $key))->limit(1);
+        $response = $this->client->execute($request);
+
+        $channels = $request->mapFromResponse($response);
+        $channel = $channels->current();
+
+        return $channel;
     }
 
     /**
@@ -34,7 +43,11 @@ class ChannelRepository
      */
     public function createChannel(ChannelDraft $channelDraft)
     {
-        return null;
+        $request = ChannelCreateRequest::ofDraft($channelDraft);
+        $response = $this->client->execute($request);
+
+        $channel = $request->mapFromResponse($response);
+        return $channel;
     }
 
     /**
@@ -45,6 +58,12 @@ class ChannelRepository
      */
     public function queryChannelsAtLocation($lng, $lat, $distance)
     {
-        return null;
+        $request = ChannelQueryRequest::of()->where(
+            sprintf('geoLocation within circle(%s, %s, %s)', $lng, $lat, $distance)
+        );
+        $response = $this->client->execute($request);
+
+        $channel = $request->mapFromResponse($response);
+        return $channel;
     }
 }
