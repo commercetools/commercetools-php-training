@@ -10,6 +10,8 @@ use Commercetools\Core\Error\ConcurrentModificationError;
 use Commercetools\Core\Model\Cart\Cart;
 use Commercetools\Core\Model\Cart\CartDraft;
 use Commercetools\Core\Model\Common\Address;
+use Commercetools\Core\Model\CustomField\CustomFieldObjectDraft;
+use Commercetools\Core\Model\CustomField\FieldContainer;
 use Commercetools\Core\Request\Carts\CartByIdGetRequest;
 use Commercetools\Core\Request\Carts\CartCreateRequest;
 use Commercetools\Core\Request\Carts\CartUpdateRequest;
@@ -123,6 +125,12 @@ class CartRepository
             $cartDraft = CartDraft::ofCurrency('EUR')
                 ->setShippingAddress(Address::of()->setCountry('DE'))
             ;
+            $cartDraft->setCustom(
+                CustomFieldObjectDraft::ofTypeKey('CheckReserve')->setFields(
+                    FieldContainer::of()->set('note', 'Some additional Note')
+                )
+            );
+
             $cart = $this->createCart($cartDraft);
         } else {
             $cart = $this->getCart($cartId);
