@@ -9,6 +9,18 @@ class CheckoutController extends Controller
 {
     public function successAction(Request $request)
     {
+        $session = $this->get('session');
+        $cartId = $session->get('cartId');
+
+        $cartRepository = $this->get('commercetools_training.service.cart_repository');
+        $cart = $cartRepository->getCart($cartId);
+        $repository = $this->get('commercetools_training.service.order_repository');
+
+        $order = $repository->createOrder($cart);
+        $session->remove('cartId');
+
+        var_dump($order->getId());
+
         return $this->render('@CommercetoolsTraining/cart/cartSuccess.html.twig', []);
     }
 }
