@@ -39,6 +39,9 @@ class CatalogController extends Controller
             }
         }
 
+        $priceFacet = $facetData->getByName('price');
+        var_dump('Price min:' . $priceFacet->getRanges()->current()->getMin());
+        var_dump('Price max:' . $priceFacet->getRanges()->current()->getMax());
         return $this->render('@CommercetoolsTraining/catalog/index.html.twig', ['products' => $products, 'facets' => $facets]);
     }
 
