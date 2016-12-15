@@ -30,5 +30,8 @@
         <service class="Commercetools\TrainingBundle\Service\CustomObjectRepository" id="commercetools_training.service.custom_object_repository">
             <argument id="commercetools.client" type="service"/>
         </service>
+        <service class="Commercetools\TrainingBundle\Service\CustomerRepository" id="commercetools_training.service.customer_repository">
+            <argument id="commercetools.client" type="service"/>
+        </service>
     </services>
 </container>
