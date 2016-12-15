@@ -7,6 +7,7 @@ use Commercetools\Core\Model\Common\ImageCollection;
 use Commercetools\Core\Model\Common\LocalizedString;
 use Commercetools\Core\Model\Common\Money;
 use Commercetools\Core\Model\Common\Price;
+use Commercetools\Core\Model\Product\FacetTermCollection;
 use Commercetools\Core\Model\Product\ProductProjection;
 use Commercetools\Core\Model\Product\ProductProjectionCollection;
 use Commercetools\Core\Model\Product\ProductVariant;
@@ -31,8 +32,10 @@ class CatalogController extends Controller
 
         $facets = [];
         foreach ($facetData as $facetName => $facetResult) {
-            foreach ($facetResult->getTerms() as $term) {
-                $facets[$facetName][] = $term->getTerm() . ' (' . $term->getCount() . ')';
+            if ($facetResult instanceof FacetTermCollection) {
+                foreach ($facetResult->getTerms() as $term) {
+                    $facets[$facetName][] = $term->getTerm() . ' (' . $term->getCount() . ')';
+                }
             }
         }
 

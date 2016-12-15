@@ -10,6 +10,8 @@ use Commercetools\Core\Model\Product\ProductProjection;
 use Commercetools\Core\Model\Product\ProductProjectionCollection;
 use Commercetools\Core\Model\Product\Search\Facet;
 use Commercetools\Core\Model\Product\Search\Filter;
+use Commercetools\Core\Model\Product\Search\FilterRange;
+use Commercetools\Core\Model\Product\Search\FilterRangeCollection;
 use Commercetools\Core\Request\Products\ProductProjectionByIdGetRequest;
 use Commercetools\Core\Request\Products\ProductProjectionQueryRequest;
 use Commercetools\Core\Request\Products\ProductProjectionSearchRequest;
@@ -35,7 +37,9 @@ class ProductRepository
      */
     public function getProducts(Request $request = null)
     {
-        $searchRequest = ProductProjectionSearchRequest::of()->currency('EUR');
+        $searchRequest = ProductProjectionSearchRequest::of()
+            ->currency('EUR')
+            ->fuzzy(true);
         if (!is_null($request)) {
             $uri = new Uri($request->getRequestUri());
             $searchRequest = $this->getSearchRequest($searchRequest, $uri);
@@ -46,6 +50,34 @@ class ProductRepository
         return $response;
     }
 
+    public function filterPrice(ProductProjectionSearchRequest $request)
+    {
+        $request->addFacet(
+            Facet::ofName('variants.scopedPrice.value.centAmount')
+                ->setAlias('price')
+                ->setValue(FilterRangeCollection::of()->add(FilterRange::ofFrom(0)))
+        );
+        $request->addFilter(
+            Filter::ofName('variants.scopedPrice.value.centAmount')
+                ->setValue(
+                    FilterRangeCollection::of()
+                        ->add(
+                            FilterRange::ofFromAndTo(8000, 10000) // from 10€ to 100€
+                        )
+                )
+        );
+        $request->addFilterFacets(
+            Filter::ofName('variants.scopedPrice.value.centAmount')
+                ->setValue(
+                    FilterRangeCollection::of()
+                        ->add(
+                            FilterRange::ofFromAndTo(8000, 10000) // from 10€ to 100€
+                        )
+                )
+        );
+
+        return $request;
+    }
 
     /**
      * @param string $productId
@@ -69,6 +101,7 @@ class ProductRepository
     {
         $searchValues = $this->searchModel->getSelectedValues($uri);
         $request = $this->searchModel->addFacets($request, $searchValues);
+        $request = $this->filterPrice($request);
 
 //        $request->addFacet(
 //            Facet::ofName('variants.attributes.color.key')->setAlias('color')
