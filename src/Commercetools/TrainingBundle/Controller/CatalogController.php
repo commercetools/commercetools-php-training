@@ -27,16 +27,14 @@ class CatalogController extends Controller
 
         $context = $this->get('commercetools.context.factory')->build($request->getLocale());
 
-        $facets = [
-            'size' => [
-                '34',
-                '35',
-            ],
-            'color' => [
-                'blue',
-                'red'
-            ]
-        ];
+        $facetData = $response->getFacets();
+
+        $facets = [];
+        foreach ($facetData as $facetName => $facetResult) {
+            foreach ($facetResult->getTerms() as $term) {
+                $facets[$facetName][] = $term->getTerm() . ' (' . $term->getCount() . ')';
+            }
+        }
 
         return $this->render('@CommercetoolsTraining/catalog/index.html.twig', ['products' => $products, 'facets' => $facets]);
     }
