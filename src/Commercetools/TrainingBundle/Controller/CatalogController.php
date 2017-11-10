@@ -29,12 +29,12 @@ class CatalogController extends Controller
 
         $facets = [
             'size' => [
-                '34',
-                '35',
+                ['term' => '34', 'count' => 1, 'checked' => false],
+                ['term' => '35', 'count' => 1, 'checked' => false],
             ],
             'color' => [
-                'blue',
-                'red'
+                ['term' => 'blue', 'count' => 1, 'checked' => false],
+                ['term' => 'red', 'count' => 1, 'checked' => false],
             ]
         ];
         $products = ProductProjectionCollection::of()->setContext($context)

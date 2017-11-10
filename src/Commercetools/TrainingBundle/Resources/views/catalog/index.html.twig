@@ -17,8 +17,8 @@
                     <ul>
                         {% for value in facet %}
                             <li>
-                                <input name="{{ facetName }}" id="{{ facetName }}-{{ value }}" type="checkbox" value="{{ value }}">
-                                <label for="{{ facetName }}-{{ value }}">{{ value }}</label>
+                                <input name="{{ facetName }}" id="{{ facetName }}-{{ value.term }}" type="checkbox" value="{{ value.term }}" {% if value.checked %}checked="checked"{% endif %}>
+                                <label for="{{ facetName }}-{{ value.term }}">{{ value.term }} ({{ value.count }})</label>
                             </li>
                         {% endfor %}
                     </ul>
