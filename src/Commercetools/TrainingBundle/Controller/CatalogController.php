@@ -35,7 +35,7 @@ class CatalogController extends Controller
         foreach ($facetData as $facetName => $facetResult) {
             if ($facetResult->getTerms() instanceof FacetTermCollection) {
                 foreach ($facetResult->getTerms() as $term) {
-                    $facets[$facetName][] = ['term' => $term->getTerm(), 'count' => $term->getCount()];
+                    $facets[$facetName][] = ['term' => $term->getTerm(), 'count' => $term->getCount(), 'checked' => false];
                 }
             }
         }
