@@ -35,14 +35,14 @@ class CatalogController extends Controller
         foreach ($facetData as $facetName => $facetResult) {
             if ($facetResult->getTerms() instanceof FacetTermCollection) {
                 foreach ($facetResult->getTerms() as $term) {
-                    $facets[$facetName][] = $term->getTerm() . ' (' . $term->getCount() . ')';
+                    $facets[$facetName][] = ['term' => $term->getTerm(), 'count' => $term->getCount()];
                 }
             }
         }
 
-        $priceFacet = $facetData->getByName('price');
-        var_dump('Price min:' . $priceFacet->getRanges()->current()->getMin());
-        var_dump('Price max:' . $priceFacet->getRanges()->current()->getMax());
+//        $priceFacet = $facetData->getByName('price');
+//        var_dump('Price min:' . $priceFacet->getRanges()->current()->getMin());
+//        var_dump('Price max:' . $priceFacet->getRanges()->current()->getMax());
         return $this->render('@CommercetoolsTraining/catalog/index.html.twig', ['products' => $products, 'facets' => $facets]);
     }
 

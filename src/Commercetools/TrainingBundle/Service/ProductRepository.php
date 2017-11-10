@@ -62,7 +62,7 @@ class ProductRepository
                 ->setValue(
                     FilterRangeCollection::of()
                         ->add(
-                            FilterRange::ofFromAndTo(8000, 10000) // from 10€ to 100€
+                            FilterRange::ofFromAndTo(1000, 10000) // from 10€ to 100€
                         )
                 )
         );
@@ -71,7 +71,7 @@ class ProductRepository
                 ->setValue(
                     FilterRangeCollection::of()
                         ->add(
-                            FilterRange::ofFromAndTo(8000, 10000) // from 10€ to 100€
+                            FilterRange::ofFromAndTo(1000, 10000) // from 10€ to 100€
                         )
                 )
         );
