@@ -22,7 +22,7 @@ _ctp_training_delete_lineItem:
     path: /cart/delete
     defaults: { _controller: "CommercetoolsTrainingBundle:Cart:deleteLineItem" }
 _ctp_training_checkout_success:
-    path: /checkout/succes
+    path: /checkout/success
     defaults: { _controller: "CommercetoolsTrainingBundle:Checkout:success" }
 
 training_login:

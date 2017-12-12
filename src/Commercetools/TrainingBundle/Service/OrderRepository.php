@@ -36,6 +36,6 @@ class OrderRepository
      */
     public function createOrder(Cart $cart)
     {
-        return null;
+        return Order::of();
     }
 }

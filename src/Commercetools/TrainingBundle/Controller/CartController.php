@@ -16,40 +16,84 @@ class CartController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $context = $this->get('commercetools.context.factory')->build($request->getLocale());
-        $cart = Cart::of()
-            ->setContext($context)
-            ->setLineItems(
-                LineItemCollection::of()->add(
-                    LineItem::of()
-                        ->setId('12345678')
-                        ->setName(LocalizedString::ofLangAndText('en', 'Test'))
-                        ->setPrice(Price::ofMoney(Money::ofCurrencyAndAmount('EUR', 100)))
-                        ->setTotalPrice(Money::ofCurrencyAndAmount('EUR', 100))
-                )
-            )
-            ->setTotalPrice(Money::ofCurrencyAndAmount('EUR', 116))
-            ->setTaxedPrice(
-                TaxedPrice::of()
-                    ->setTotalGross(Money::ofCurrencyAndAmount('EUR', 116))
-                    ->setTotalNet(Money::ofCurrencyAndAmount('EUR', 100))
-            )
-        ;
+        $session = $this->get('session');
+        $cartId = $session->get('cartId');
+
+        if (is_null($cartId)) {
+            $cart = Cart::of();
+        } else {
+            $context = $this->get('commercetools.context.factory')->build($request->getLocale());
+
+            $repository = $this->get('commercetools_training.service.cart_repository');
+
+            $cart = $repository->getOrCreateCart($cartId);
+            $cart->setContext($context);
+
+            $session->set('cartId', $cart->getId());
+        }
+
         return $this->render('@CommercetoolsTraining/cart/index.html.twig', ['cart' => $cart]);
     }
 
     public function addLineItemAction(Request $request)
     {
+        $session = $this->get('session');
+        $cartId = $session->get('cartId');
+
+        $context = $this->get('commercetools.context.factory')->build($request->getLocale());
+        $repository = $this->get('commercetools_training.service.cart_repository');
+
+        $cart = $repository->getOrCreateCart($cartId);
+        $cart->setContext($context);
+
+        $productId = $request->get('productId');
+        $variantId = (int)$request->get('variantId');
+        $quantity = (int)$request->get('quantity');
+
+        $cart = $repository->addLineItem($cart, $productId, $variantId, $quantity);
+        $session->set('cartId', $cart->getId());
+
         return $this->redirectToRoute('_ctp_training_cart');
     }
 
     public function changeLineItemAction(Request $request)
     {
+        $session = $this->get('session');
+        $cartId = $session->get('cartId');
+
+        if (!is_null($cartId)) {
+            $context = $this->get('commercetools.context.factory')->build($request->getLocale());
+            $repository = $this->get('commercetools_training.service.cart_repository');
+
+            $cart = $repository->getOrCreateCart($cartId);
+            $cart->setContext($context);
+
+            $lineItemId = $request->get('lineItemId');
+            $quantity = (int)$request->get('quantity');
+
+            $repository->changeLineItemQuantity($cart, $lineItemId, $quantity);
+        }
+
         return $this->redirectToRoute('_ctp_training_cart');
     }
 
     public function deleteLineItemAction(Request $request)
     {
+        $session = $this->get('session');
+        $cartId = $session->get('cartId');
+
+        if (!is_null($cartId)) {
+            $context = $this->get('commercetools.context.factory')->build($request->getLocale());
+            $repository = $this->get('commercetools_training.service.cart_repository');
+
+            $cart = $repository->getOrCreateCart($cartId);
+            $cart->setContext($context);
+
+            $lineItemId = $request->get('lineItemId');
+
+            $repository->removeLineItem($cart, $lineItemId);
+        }
+
         return $this->redirectToRoute('_ctp_training_cart');
     }
 }
