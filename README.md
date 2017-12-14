@@ -26,6 +26,18 @@ Running Training tests:
 vendor/bin/phpunit
 ```
 
+### Docker
+
+Setup:
+```bash
+docker run --rm -v${PWD}:/app -w /app jaysde/php-test-base composer install
+```
+
+Start the application
+```bash
+docker-compose up
+```
+
 ### PhpStorm Configuration
 
 ```

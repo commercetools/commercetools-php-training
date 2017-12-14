@@ -1,0 +1,26 @@
+version: '2'
+services:
+    training_nginx:
+        depends_on:
+            - training_phpfpm
+        image: jaysde/symfony-nginx
+        ports:
+            - "8000:80"
+        volumes:
+            - .:/var/www/symfony
+        networks:
+            - training-local
+        environment:
+            - APP_NAMESPACE=training
+    training_phpfpm:
+        image: jaysde/symfony-php-fpm
+        volumes:
+            - .:/var/www/symfony
+        networks:
+            - training-local
+        container_name: application
+        environment:
+            - APP_ENV=dev
+networks:
+    training-local:
+        driver: bridge
