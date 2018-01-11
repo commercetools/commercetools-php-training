@@ -26,6 +26,7 @@ class InventoryRepository
      */
     public function getInventory($sku)
     {
+        //TODO 8.2.
         return null;
     }
 
@@ -35,6 +36,7 @@ class InventoryRepository
      */
     public function createInventory(InventoryDraft $inventoryDraft)
     {
+        //TODO 8.1.
         return null;
     }
 }

@@ -23,6 +23,7 @@ class TypeRepository
      */
     public function getCheckReserveType()
     {
+        //TODO 5.2.
         return null;
     }
 
@@ -32,6 +33,7 @@ class TypeRepository
      */
     public function createType(TypeDraft $type)
     {
+        //TODO 5.1.
         return null;
     }
 }

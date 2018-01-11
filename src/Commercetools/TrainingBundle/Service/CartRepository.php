@@ -33,6 +33,7 @@ class CartRepository
     public function createCart(CartDraft $cartDraft)
     {
         return $this->getFakeCart();
+        //TODO 3.1
     }
 
     /**
@@ -45,6 +46,7 @@ class CartRepository
     public function addLineItem(Cart $cart, $productId, $variantId, $quantity)
     {
         return $this->getFakeCart();
+        // TODO 3.4.
     }
 
     /**
@@ -56,6 +58,7 @@ class CartRepository
     public function changeLineItemQuantity(Cart $cart, $lineItemId, $quantity)
     {
         return $this->getFakeCart();
+        //TODO 3.5.
     }
 
     /**
@@ -75,6 +78,7 @@ class CartRepository
     public function getCart($cartId)
     {
         return $this->getFakeCart();
+        //TODO 3.2.
     }
 
     /**
@@ -84,6 +88,8 @@ class CartRepository
     public function getOrCreateCart($cartId = null)
     {
         return $this->getFakeCart();
+        //TODO 3.3.
+        //TODO 5.3.
     }
 
     private function getFakeCart()
