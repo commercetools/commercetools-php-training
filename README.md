@@ -38,6 +38,18 @@ Start the application
 docker-compose up
 ```
 
+### Vagrant
+
+Setup:
+```bash
+composer install
+```
+
+Start the application:
+```bash
+vagrant up
+```
+
 ### PhpStorm Configuration
 
 ```
