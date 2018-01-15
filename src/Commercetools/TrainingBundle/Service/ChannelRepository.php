@@ -25,6 +25,7 @@ class ChannelRepository
      */
     public function getChannel($key)
     {
+        //TODO 7.2.
         return null;
     }
 
@@ -34,6 +35,7 @@ class ChannelRepository
      */
     public function createChannel(ChannelDraft $channelDraft)
     {
+        //TODO 7.1.
         return null;
     }
 
@@ -45,6 +47,7 @@ class ChannelRepository
      */
     public function queryChannelsAtLocation($lng, $lat, $distance)
     {
+        //TODO 7.3.
         return null;
     }
 }

@@ -114,8 +114,8 @@ class ProductRepository
         $response =  new PagedSearchResponse($httpResponse, $searchRequest, $this->client->getConfig()->getContext());
 
         return $response;
+        //TODO 2.1. Query all products
     }
-
 
     /**
      * @param string $productId
@@ -147,6 +147,7 @@ class ProductRepository
                         )
                     )
             );
+        //TODO 2.2. Get a product by ID.
     }
 
     /**

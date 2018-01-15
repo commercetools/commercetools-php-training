@@ -27,6 +27,7 @@ class CustomObjectRepository
      */
     public function store($container, $key, $value, $version = null)
     {
+        //TODO 6.1.
     }
 
     /**
@@ -34,6 +35,7 @@ class CustomObjectRepository
      */
     public function getCustomerNumberObject()
     {
+        //TODO 6.2.
         return null;
     }
 
@@ -48,5 +50,6 @@ class CustomObjectRepository
         }
 
         return $customObject->getValue();
+        //TODO 6.3.
     }
 }
