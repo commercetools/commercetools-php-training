@@ -27,10 +27,20 @@ class CatalogController extends Controller
 
         $facetData = $response->getFacets();
         $facets = [];
+        $selectedValues = $this->get('commercetools.search')->getSelectedValues(new Uri($request->getRequestUri()));
+
         foreach ($facetData as $facetName => $facetResult) {
             if ($facetResult->getTerms() instanceof FacetTermCollection) {
                 foreach ($facetResult->getTerms() as $term) {
-                    $facets[$facetName][] = ['term' => $term->getTerm(), 'count' => $term->getCount(), 'checked' => false];
+                    $selectedFacetValues = isset($selectedValues[$facetName]) ? $selectedValues[$facetName] : [];
+                    $selectedFacetValues = is_array($selectedFacetValues) ?
+                        $selectedFacetValues : [$selectedFacetValues];
+                    $checked = (in_array($term->getTerm(), $selectedFacetValues) ? true : false);
+                    $facets[$facetName][] = [
+                        'term' => $term->getTerm(),
+                        'count' => $term->getCount(),
+                        'checked' => $checked
+                    ];
                 }
             }
         }
