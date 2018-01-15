@@ -40,12 +40,7 @@ docker-compose up
 
 ### Vagrant
 
-Setup:
-```bash
-composer install
-```
-
-Start the application:
+Setup and starting the application:
 ```bash
 vagrant up
 ```
