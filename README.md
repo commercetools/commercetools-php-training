@@ -13,7 +13,7 @@ composer install
 ```
 Start the application
 ```bash
-bin/console server:run
+env $(cat parameters.env | xargs) bin/console server:run
 ```
 
 Open in browser

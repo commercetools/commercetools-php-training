@@ -3,3 +3,4 @@ credentials.ini
 var/logs
 var/sessions
 parameters.yml
+composer.lock

@@ -21,6 +21,8 @@ services:
         container_name: application
         environment:
             - APP_ENV=dev
+        env_file:
+          - parameters.env
 networks:
     training-local:
         driver: bridge
