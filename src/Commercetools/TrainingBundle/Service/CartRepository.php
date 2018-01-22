@@ -10,6 +10,7 @@ use Commercetools\Core\Model\Cart\Cart;
 use Commercetools\Core\Model\Cart\CartDraft;
 use Commercetools\Core\Model\Cart\LineItem;
 use Commercetools\Core\Model\Cart\LineItemCollection;
+use Commercetools\Core\Model\Common\Address;
 use Commercetools\Core\Model\Common\LocalizedString;
 use Commercetools\Core\Model\Common\Money;
 use Commercetools\Core\Model\Common\Price;
@@ -87,9 +88,18 @@ class CartRepository
      */
     public function getOrCreateCart($cartId = null)
     {
-        return $this->getFakeCart();
-        //TODO 3.3.
-        //TODO 5.3.
+        if (is_null($cartId)) {
+            $cartDraft = CartDraft::ofCurrency('EUR')
+                ->setShippingAddress(Address::of()->setCountry('DE'))
+            ;
+            $cart = $this->createCart($cartDraft);
+        } else {
+            $cart = $this->getCart($cartId);
+        }
+        if (is_null($cart)) {
+            $cart = Cart::of();
+        }
+        return $cart;
     }
 
     private function getFakeCart()
