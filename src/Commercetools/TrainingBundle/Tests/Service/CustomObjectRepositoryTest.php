@@ -32,23 +32,23 @@ class CustomObjectRepositoryTest extends TrainingTestCase
         $this->assertSame($object, $customObject->getValue());
     }
 
-    public function testNewCustomerNumber()
+    public function testNewOrderNumber()
     {
         $repository = $this->container->get('commercetools_training.service.custom_object_repository');
 
-        $customerNumberOld = $repository->getNewCustomerNumber();
-        $customerNumber = $repository->getNewCustomerNumber();
+        $customerNumberOld = $repository->getNewOrderNumber();
+        $customerNumber = $repository->getNewOrderNumber();
 
         $this->assertSame($customerNumberOld + 1, $customerNumber);
     }
 
-    public function testCustomerNumberConcurrency()
+    public function testOrderNumberConcurrency()
     {
         $repository = $this->container->get('commercetools_training.service.custom_object_repository');
 
-        $customerNumberOld = $repository->getNewCustomerNumber();
+        $customerNumberOld = $repository->getNewOrderNumber();
 
-        $customerNumberObject = $repository->getCustomerNumberObject();
+        $customerNumberObject = $repository->getOrderNumberObject();
         $response = $repository->store(
             $customerNumberObject->getContainer(),
             $customerNumberObject->getKey(),
@@ -57,7 +57,7 @@ class CustomObjectRepositoryTest extends TrainingTestCase
         );
         $this->assertSame($customerNumberObject->getId(), $response->getId());
 
-        $customerNumber = $repository->getNewCustomerNumber($customerNumberObject);
+        $customerNumber = $repository->getNewOrderNumber($customerNumberObject);
         $this->assertSame($customerNumberOld + 2, $customerNumber);
     }
 }

@@ -33,7 +33,7 @@ class CustomObjectRepository
     /**
      * @return CustomObject
      */
-    public function getCustomerNumberObject()
+    public function getOrderNumberObject()
     {
         //TODO 6.2.
         return null;
@@ -43,10 +43,10 @@ class CustomObjectRepository
      * @param null $customObject
      * @return int
      */
-    public function getNewCustomerNumber($customObject = null)
+    public function getNewOrderNumber($customObject = null)
     {
         if (is_null($customObject)) {
-            $customObject = $this->getCustomerNumberObject();
+            $customObject = $this->getOrderNumberObject();
         }
 
         return $customObject->getValue();
