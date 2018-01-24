@@ -29,7 +29,8 @@ class ProductRepositoryTest extends TrainingTestCase
             'facet=variants.attributes.color.key+as+color&facet=variants.attributes.commonSize.key+as+size&' .
             'filter.facets=variants.attributes.color.key%3A%22green%22&' .
             'filter.facets=variants.attributes.commonSize.key%3A%2235%22&' .
-            'filter=variants.attributes.color.key%3A%22green%22&filter=variants.attributes.commonSize.key%3A%2235%22',
+            'filter=variants.attributes.color.key%3A%22green%22&filter=variants.attributes.commonSize.key%3A%2235%22&' .
+            'markMatchingVariants=false',
             (string)$request->httpRequest()->getBody()
         );
     }
@@ -37,7 +38,7 @@ class ProductRepositoryTest extends TrainingTestCase
     public function testGetProducts()
     {
         $repository = $this->container->get('commercetools_training.service.product_repository');
-        
+
         $products = $repository->getProducts()->toObject();
 
         $this->assertInstanceOf(ProductProjectionCollection::class, $products);
