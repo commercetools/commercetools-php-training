@@ -8,6 +8,8 @@ namespace Commercetools\TrainingBundle\Service;
 use Commercetools\Core\Client;
 use Commercetools\Core\Model\Inventory\InventoryDraft;
 use Commercetools\Core\Model\Inventory\InventoryEntry;
+use Commercetools\Core\Request\Inventory\InventoryCreateRequest;
+use Commercetools\Core\Request\Inventory\InventoryQueryRequest;
 
 class InventoryRepository
 {
@@ -26,8 +28,11 @@ class InventoryRepository
      */
     public function getInventory($sku)
     {
-        //TODO 8.2.
-        return null;
+        $request = InventoryQueryRequest::of()->where(sprintf('sku = "%s"', $sku));
+        $response = $this->client->execute($request);
+        $inventories = $request->mapFromResponse($response);
+        $inventory = $inventories->current();
+        return $inventory;
     }
 
     /**
@@ -36,7 +41,9 @@ class InventoryRepository
      */
     public function createInventory(InventoryDraft $inventoryDraft)
     {
-        //TODO 8.1.
-        return null;
+        $request = InventoryCreateRequest::ofDraft($inventoryDraft);
+        $response = $this->client->execute($request);
+        $inventory = $request->mapFromResponse($response);
+        return $inventory;
     }
 }

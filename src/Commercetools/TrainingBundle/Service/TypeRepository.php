@@ -6,8 +6,15 @@
 namespace Commercetools\TrainingBundle\Service;
 
 use Commercetools\Core\Client;
+use Commercetools\Core\Error\ResourceNotFoundError;
+use Commercetools\Core\Model\Common\LocalizedString;
+use Commercetools\Core\Model\Type\FieldDefinition;
+use Commercetools\Core\Model\Type\FieldDefinitionCollection;
+use Commercetools\Core\Model\Type\StringType;
 use Commercetools\Core\Model\Type\Type;
 use Commercetools\Core\Model\Type\TypeDraft;
+use Commercetools\Core\Request\Types\TypeByKeyGetRequest;
+use Commercetools\Core\Request\Types\TypeCreateRequest;
 
 class TypeRepository
 {
@@ -23,8 +30,35 @@ class TypeRepository
      */
     public function getCheckReserveType()
     {
-        //TODO 5.2.
-        return null;
+        $request = TypeByKeyGetRequest::ofKey('CheckReserve');
+        $response = $this->client->execute($request);
+
+        if ($response->isError()) {
+            if ($response->getErrors()->getByCode(ResourceNotFoundError::CODE)) {
+                $draft = TypeDraft::ofKeyNameDescriptionAndResourceTypes(
+                    'CheckReserve',
+                    LocalizedString::ofLangAndText('en', 'CheckReserve'),
+                    LocalizedString::ofLangAndText('en', 'CheckReserve custom type'),
+                    ['order']
+                );
+                $draft->setFieldDefinitions(
+                    FieldDefinitionCollection::of()->add(
+                        FieldDefinition::of()
+                            ->setType(StringType::of())
+                            ->setName('note')
+                            ->setLabel(LocalizedString::ofLangAndText('en', 'Additional Note'))
+                            ->setRequired(false)
+                            ->setInputHint('MultiLine')
+                    )
+                );
+                $type = $this->createType($draft);
+            } else {
+                throw new \Exception('something happened');
+            }
+        }
+
+        $type = $request->mapFromResponse($response);
+        return $type;
     }
 
     /**
@@ -33,7 +67,9 @@ class TypeRepository
      */
     public function createType(TypeDraft $type)
     {
-        //TODO 5.1.
-        return null;
+        $request = TypeCreateRequest::ofDraft($type);
+        $response = $this->client->execute($request);
+        $type = $request->mapFromResponse($response);
+        return $type;
     }
 }

@@ -14,6 +14,9 @@ use Commercetools\Core\Model\Common\Price;
 use Commercetools\Core\Model\Product\ProductProjection;
 use Commercetools\Core\Model\Product\ProductProjectionCollection;
 use Commercetools\Core\Model\Product\ProductVariant;
+use Commercetools\Core\Model\Product\Search\Facet;
+use Commercetools\Core\Model\Product\Search\Filter;
+use Commercetools\Core\Request\Products\ProductProjectionByIdGetRequest;
 use Commercetools\Core\Request\Products\ProductProjectionSearchRequest;
 use Commercetools\Core\Response\PagedSearchResponse;
 use Commercetools\Symfony\CtpBundle\Model\Search;
@@ -46,7 +49,8 @@ class ProductRepository
             $searchRequest = $this->getSearchRequest($searchRequest, $uri);
         }
 
-        return $this->getFakeSearchResult($searchRequest);
+        $response = $this->client->execute($searchRequest);
+        return $response;
         //TODO 2.1. Query all products
     }
 
@@ -56,7 +60,10 @@ class ProductRepository
      */
     public function getProductById($productId)
     {
-        return $this->getFakeProduct();
+        $request = ProductProjectionByIdGetRequest::ofId($productId)->currency('EUR');
+        $response = $this->client->execute($request);
+        $product = $request->mapFromResponse($response);
+        return $product;
         //TODO 2.2. Get a product by ID.
     }
 
@@ -67,6 +74,36 @@ class ProductRepository
      */
     public function getSearchRequest(ProductProjectionSearchRequest $request, Uri $uri)
     {
+        $request->addFacet(
+            Facet::ofName('variants.attributes.color.key')->setAlias('color')
+        );
+        $request->addFacet(
+            Facet::ofName('variants.attributes.commonSize.key')->setAlias('size')
+        );
+
+        $searchValues = [];
+        $queryParams = \GuzzleHttp\Psr7\parse_query($uri->getQuery());
+        foreach ($queryParams as $paramName => $params) {
+            switch ($paramName) {
+                case 'color':
+                    $request->addFilterFacets(
+                        Filter::ofName('variants.attributes.color.key')->setValue($params)
+                    );
+                    $request->addFilter(
+                        Filter::ofName('variants.attributes.color.key')->setValue($params)
+                    );
+                    break;
+                case 'size':
+                    $request->addFilterFacets(
+                        Filter::ofName('variants.attributes.commonSize.key')->setValue($params)
+                    );
+                    $request->addFilter(
+                        Filter::ofName('variants.attributes.commonSize.key')->setValue($params)
+                    );
+                    break;
+            }
+        }
+
         return $request;
     }
 

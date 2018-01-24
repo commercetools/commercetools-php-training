@@ -15,6 +15,14 @@ use Commercetools\Core\Model\Common\LocalizedString;
 use Commercetools\Core\Model\Common\Money;
 use Commercetools\Core\Model\Common\Price;
 use Commercetools\Core\Model\Common\TaxedPrice;
+use Commercetools\Core\Model\CustomField\CustomFieldObjectDraft;
+use Commercetools\Core\Model\CustomField\FieldContainer;
+use Commercetools\Core\Request\Carts\CartByIdGetRequest;
+use Commercetools\Core\Request\Carts\CartCreateRequest;
+use Commercetools\Core\Request\Carts\CartUpdateRequest;
+use Commercetools\Core\Request\Carts\Command\CartAddLineItemAction;
+use Commercetools\Core\Request\Carts\Command\CartChangeLineItemQuantityAction;
+use Commercetools\Core\Request\Carts\Command\CartRemoveLineItemAction;
 
 class CartRepository
 {
@@ -33,8 +41,11 @@ class CartRepository
      */
     public function createCart(CartDraft $cartDraft)
     {
-        return $this->getFakeCart();
-        //TODO 3.1
+        $request = CartCreateRequest::ofDraft($cartDraft);
+        $response = $this->client->execute($request);
+
+        $cart = $request->mapFromResponse($response);
+        return $cart;
     }
 
     /**
@@ -46,8 +57,17 @@ class CartRepository
      */
     public function addLineItem(Cart $cart, $productId, $variantId, $quantity)
     {
-        return $this->getFakeCart();
-        // TODO 3.4.
+        $request = CartUpdateRequest::ofIdAndVersion($cart->getId(), $cart->getVersion());
+        $request->addAction(
+            CartAddLineItemAction::ofProductIdVariantIdAndQuantity(
+                $productId,
+                $variantId,
+                $quantity
+            )
+        );
+        $response = $this->client->execute($request);
+        $cart = $request->mapFromResponse($response);
+        return $cart;
     }
 
     /**
@@ -58,8 +78,16 @@ class CartRepository
      */
     public function changeLineItemQuantity(Cart $cart, $lineItemId, $quantity)
     {
-        return $this->getFakeCart();
-        //TODO 3.5.
+        $request = CartUpdateRequest::ofIdAndVersion($cart->getId(), $cart->getVersion());
+        $request->addAction(
+            CartChangeLineItemQuantityAction::ofLineItemIdAndQuantity(
+                $lineItemId,
+                $quantity
+            )
+        );
+        $response = $this->client->execute($request);
+        $cart = $request->mapFromResponse($response);
+        return $cart;
     }
 
     /**
@@ -69,7 +97,13 @@ class CartRepository
      */
     public function removeLineItem(Cart $cart, $lineItemId)
     {
-        return $this->getFakeCart();
+        $request = CartUpdateRequest::ofIdAndVersion($cart->getId(), $cart->getVersion());
+        $request->addAction(
+            CartRemoveLineItemAction::ofLineItemId($lineItemId)
+        );
+        $response = $this->client->execute($request);
+        $cart = $request->mapFromResponse($response);
+        return $cart;
     }
 
     /**
@@ -78,8 +112,12 @@ class CartRepository
      */
     public function getCart($cartId)
     {
-        return $this->getFakeCart();
-        //TODO 3.2.
+        $request = CartByIdGetRequest::ofId($cartId);
+        $response = $this->client->execute($request);
+
+        $cart = $request->mapFromResponse($response);
+
+        return $cart;
     }
 
     /**
@@ -92,6 +130,11 @@ class CartRepository
             $cartDraft = CartDraft::ofCurrency('EUR')
                 ->setShippingAddress(Address::of()->setCountry('DE'))
             ;
+            $cartDraft->setCustom(
+                CustomFieldObjectDraft::ofTypeKey('CheckReserve')->setFields(
+                    FieldContainer::of()->set('note', 'Some additional Note')
+                )
+            );
             $cart = $this->createCart($cartDraft);
         } else {
             $cart = $this->getCart($cartId);
