@@ -46,6 +46,60 @@ class ProductRepository
             $searchRequest = $this->getSearchRequest($searchRequest, $uri);
         }
 
+        return $this->getFakeSearchResult($searchRequest);
+        //TODO 2.1. Query all products
+    }
+
+    /**
+     * @param string $productId
+     * @return ProductProjection
+     */
+    public function getProductById($productId)
+    {
+        return $this->getFakeProduct();
+        //TODO 2.2. Get a product by ID.
+    }
+
+    /**
+     * @param ProductProjectionSearchRequest $request
+     * @param Uri $uri
+     * @return ProductProjectionSearchRequest
+     */
+    public function getSearchRequest(ProductProjectionSearchRequest $request, Uri $uri)
+    {
+        return $request;
+    }
+
+    private function getFakeProduct()
+    {
+        $description = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+         ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+         rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+         sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+         aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+         gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
+
+        return ProductProjection::of()->setContext($this->client->getConfig()->getContext())
+            ->setId('123456')
+            ->setName(LocalizedString::ofLangAndText('en', 'Test'))
+            ->setDescription(LocalizedString::ofLangAndText('en', $description))
+            ->setMasterVariant(
+                ProductVariant::of()
+                    ->setPrice(
+                        Price::ofMoney(Money::ofCurrencyAndAmount('EUR', 100))
+                    )
+                    ->setImages(
+                        ImageCollection::of()->add(
+                            Image::of()->setUrl(
+                                'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072595_1_large.jpg'
+                            )
+                        )
+                    )
+            );
+    }
+
+    private function getFakeSearchResult($searchRequest)
+    {
         $facets = [
             'size' => [
                 'type' => 'terms',
@@ -114,49 +168,5 @@ class ProductRepository
         $response =  new PagedSearchResponse($httpResponse, $searchRequest, $this->client->getConfig()->getContext());
 
         return $response;
-        //TODO 2.1. Query all products
-    }
-
-    /**
-     * @param string $productId
-     * @return ProductProjection
-     */
-    public function getProductById($productId)
-    {
-        $description = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-         ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-         rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-         sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-         aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-         gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
-
-        return ProductProjection::of()->setContext($this->client->getConfig()->getContext())
-            ->setId('123456')
-            ->setName(LocalizedString::ofLangAndText('en', 'Test'))
-            ->setDescription(LocalizedString::ofLangAndText('en', $description))
-            ->setMasterVariant(
-                ProductVariant::of()
-                    ->setPrice(
-                        Price::ofMoney(Money::ofCurrencyAndAmount('EUR', 100))
-                    )
-                    ->setImages(
-                        ImageCollection::of()->add(
-                            Image::of()->setUrl(
-                                'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072595_1_large.jpg'
-                            )
-                        )
-                    )
-            );
-        //TODO 2.2. Get a product by ID.
-    }
-
-    /**
-     * @param ProductProjectionSearchRequest $request
-     * @param Uri $uri
-     * @return ProductProjectionSearchRequest
-     */
-    public function getSearchRequest(ProductProjectionSearchRequest $request, Uri $uri)
-    {
-        return $request;
     }
 }
