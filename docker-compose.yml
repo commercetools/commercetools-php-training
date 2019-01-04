@@ -1,28 +1,11 @@
 version: '2'
 services:
-    training_nginx:
-        depends_on:
-            - training_phpfpm
-        image: jaysde/symfony-nginx
-        ports:
-            - "8000:80"
+    training:
+        image: jaysde/php-test-base
         volumes:
-            - .:/var/www/symfony
-        networks:
-            - training-local
-        environment:
-            - APP_NAMESPACE=training
-    training_phpfpm:
-        image: jaysde/symfony-php-fpm
-        volumes:
-            - .:/var/www/symfony
-        networks:
-            - training-local
+            - .:/opt/app
+        working_dir: /opt/app
         container_name: application
-        environment:
-            - APP_ENV=dev
         env_file:
           - parameters.env
-networks:
-    training-local:
-        driver: bridge
+        command: vendor/bin/phpunit

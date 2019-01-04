@@ -1,7 +1,0 @@
-commercetools_training:
-    resource: "@CommercetoolsTrainingBundle/Resources/config/routing.yml"
-    prefix:   /training
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
