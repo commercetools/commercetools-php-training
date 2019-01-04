@@ -12,14 +12,14 @@ class ClientService
      */
     public function createClient()
     {
-        //TODO: instantiate client
+        //TODO: 1.1 instantiate client
         return null;
     }
 
     public function loadConfig()
     {
         $parameters = [];
-        if (file_exists(__DIR__ . '/../parameters.env')) {
+        if (!isset($_SERVER['CTP_CLIENT_ID']) && file_exists(__DIR__ . '/../parameters.env')) {
             $envFile = file(__DIR__ . '/../parameters.env');
             $envVars = array_map(function ($value) { return explode("=", $value, 2); }, $envFile);
             $parameters = array_combine(
@@ -28,9 +28,9 @@ class ClientService
             );
         }
         $config = [
-            'client_id' => isset($_ENV['CTP_CLIENT_ID']) ? $_ENV['CTP_CLIENT_ID'] : $parameters['CTP_CLIENT_ID'],
-            'client_secret' => isset($_ENV['CTP_CLIENT_SECRET']) ? $_ENV['CTP_CLIENT_SECRET'] : $parameters['CTP_CLIENT_SECRET'],
-            'project' => isset($_ENV['CTP_PROJECT']) ? $_ENV['CTP_PROJECT'] : $parameters['CTP_PROJECT']
+            'client_id' => isset($_SERVER['CTP_CLIENT_ID']) ? $_SERVER['CTP_CLIENT_ID'] : $parameters['CTP_CLIENT_ID'],
+            'client_secret' => isset($_SERVER['CTP_CLIENT_SECRET']) ? $_SERVER['CTP_CLIENT_SECRET'] : $parameters['CTP_CLIENT_SECRET'],
+            'project' => isset($_SERVER['CTP_PROJECT']) ? $_SERVER['CTP_PROJECT'] : $parameters['CTP_PROJECT']
         ];
 
         return Config::fromArray($config);

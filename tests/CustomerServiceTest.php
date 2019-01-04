@@ -1,7 +1,4 @@
 <?php
-/**
- * @author @jenschude <jens.schulze@commercetools.de>
- */
 
 namespace Commercetools\Training\Tests;
 
@@ -13,7 +10,7 @@ use Commercetools\Training\ClientService;
 use Commercetools\Training\CustomerService;
 use PHPUnit\Framework\TestCase;
 
-class Exercise2 extends TestCase
+class CustomerServiceTest extends TestCase
 {
     public function testRegisterCustomer()
     {

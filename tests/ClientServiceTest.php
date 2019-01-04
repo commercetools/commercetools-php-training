@@ -9,7 +9,7 @@ use Commercetools\Core\Model\Project\Project;
 use Commercetools\Training\ClientService;
 use PHPUnit\Framework\TestCase;
 
-class Exercise1 extends TestCase
+class ClientServiceTest extends TestCase
 {
     public function testLoadConfig()
     {

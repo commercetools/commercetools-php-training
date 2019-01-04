@@ -7,23 +7,13 @@ To achieve this the project uses a preconfigured Symfony 3.2 application with th
 https://github.com/commercetools/commercetools-php-training
 
 Setup project:
-
 ```bash
 composer install
 ```
-Start the application
-```bash
-env $(cat parameters.env | xargs) bin/console server:run
-```
-
-Open in browser
-
-[http://localhost:8000/training](http://localhost:8000/training)
 
 Running Training tests:
-
 ```bash
-vendor/bin/phpunit
+env $(cat parameters.env | xargs) vendor/bin/phpunit
 ```
 
 ### Docker
@@ -33,7 +23,11 @@ Setup:
 docker run --rm -v${PWD}:/app -w /app jaysde/php-test-base composer install
 ```
 
-Start the application
+Running Training tests:
+```bash
+docker run --rm  --env-file parameters.env -v${PWD}:/app -w /app jaysde/php-test-base vendor/bin/phpunit
+```
+
 ```bash
 docker-compose up
 ```
@@ -43,6 +37,11 @@ docker-compose up
 Setup and starting the application:
 ```bash
 vagrant up
+```
+
+Running Training tests:
+```bash
+vagrant ssh -c 'cd training; env $(cat parameters.env | xargs) vendor/bin/phpunit'
 ```
 
 ### PhpStorm Configuration
