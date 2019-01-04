@@ -25,11 +25,11 @@ docker run --rm -v${PWD}:/app -w /app jaysde/php-test-base composer install
 
 Running Training tests:
 ```bash
-docker run --rm  --env-file parameters.env -v${PWD}:/app -w /app jaysde/php-test-base vendor/bin/phpunit
-```
-
-```bash
 docker-compose up
+```
+or
+```bash
+docker run --rm  --env-file parameters.env -v${PWD}:/app -w /app jaysde/php-test-base vendor/bin/phpunit
 ```
 
 ### Vagrant
