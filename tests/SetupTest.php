@@ -80,7 +80,7 @@ class SetupTest extends TestCase
                     true
                 )
             );
-            $response = $client->execute($categoryCreateRequest);
+            $response = $client->execute($cdCreateRequest);
             $this->assertFalse($response->isError());
             $cartDiscount = $cdCreateRequest->mapFromResponse($response);
         } else {
@@ -100,7 +100,7 @@ class SetupTest extends TestCase
                     )
                     ->setName(LocalizedString::ofLangAndText('en', 'TESTCODE'))
             );
-            $response = $client->execute($categoryCreateRequest);
+            $response = $client->execute($discountCodeCreateRequest);
             $this->assertFalse($response->isError());
         }
     }
