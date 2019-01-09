@@ -2,9 +2,11 @@
 
 namespace Commercetools\Training;
 
+use Commercetools\Core\Builder\Update\ActionBuilder;
 use Commercetools\Core\Model\Cart\Cart;
 use Commercetools\Core\Model\Customer\Customer;
 use Commercetools\Core\Model\Product\ProductProjection;
+use Commercetools\Core\Request\Carts\CartUpdateRequest;
 
 class CartService extends AbstractService
 {
@@ -43,7 +45,7 @@ class CartService extends AbstractService
      */
     public function addDiscountToCart($code, Cart $cart)
     {
-        //TODO: 5.1 update cart with product
+        //TODO: 5.1 add discount to cart
         $request = null;
 
         $response = $this->client->execute($request);

@@ -13,9 +13,14 @@
 
     <testsuites>
         <testsuite name="Training">
+            <file>tests/SetupTest.php</file>
             <file>tests/ClientServiceTest.php</file>
             <file>tests/CustomerServiceTest.php</file>
             <file>tests/CartServiceTest.php</file>
+            <file>tests/ProductQueryServiceTest.php</file>
+            <file>tests/CartDiscountServiceTest.php</file>
+            <file>tests/OrderServiceTest.php</file>
+            <file>tests/ProductSearchServiceTest.php</file>
         </testsuite>
     </testsuites>
 
