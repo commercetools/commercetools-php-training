@@ -20,7 +20,7 @@ env $(cat parameters.env | xargs) vendor/bin/phpunit
 
 Setup:
 ```bash
-docker run --rm -v${PWD}:/app -w /app jaysde/php-test-base composer install
+docker run --rm -v${PWD}:/app -w /app jenschude/php-test-base composer install
 ```
 
 Running Training tests:
@@ -29,7 +29,7 @@ docker-compose up
 ```
 or
 ```bash
-docker run --rm  --env-file parameters.env -v${PWD}:/app -w /app jaysde/php-test-base vendor/bin/phpunit
+docker run --rm  --env-file parameters.env -v${PWD}:/app -w /app jenschude/php-test-base vendor/bin/phpunit
 ```
 
 ### Vagrant
@@ -50,6 +50,7 @@ vagrant ssh -c 'cd training; env $(cat parameters.env | xargs) vendor/bin/phpuni
 Languages > Frameworks > PHP : Select CLI interpreter
 ```
 
+#### Local
 ```
 Languages > Frameworks > PHP > Testframeworks :
 
@@ -57,6 +58,17 @@ Add local entry for PHPUnit: Use composer autoloader
 Default configuration file: phpunit.xml.dist
 
 ```
+
+#### Vagrant
+
+```
+Languages > Frameworks > PHP > Testframeworks :
+
+Add remote entry for PHPUnit: Use composer autoloader
+Default configuration file: phpunit.xml.dist
+
+```
+
 
 ```
 Run/Debug Configurations
