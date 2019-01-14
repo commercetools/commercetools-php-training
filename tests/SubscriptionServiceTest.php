@@ -45,7 +45,7 @@ class SubscriptionServiceTest extends TestCase
         $this->assertInstanceOf(Order::class, $order);
 
         $order = $orderService->changeState(OrderState::CANCELLED, $order);
-        $this->assertSame(OrderState::CANCELLED, $order->getState());
+        $this->assertSame(OrderState::CANCELLED, $order->getOrderState());
 
         $subscriptionService->deleteSqsSubscription($subscription);
     }

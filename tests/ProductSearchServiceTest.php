@@ -16,7 +16,7 @@ class ProductSearchServiceTest extends TestCase
         $result = $service->fulltextSearch('en', 'Cantarelli');
 
         $this->assertGreaterThan(0, $result->count());
-        $this->assertSame('Cantarelli', $result->current()->getName()->en);
+        $this->assertContains('Cantarelli', $result->current()->getName()->en);
     }
 
     public function testFacetSearch()
@@ -24,12 +24,12 @@ class ProductSearchServiceTest extends TestCase
         $client = (new ClientService())->createClient();
         $service = new ProductSearchService($client);
 
-        $result = $service->facetSearch('color', 'red');
+        $result = $service->facetSearch('ctp-color', 'red');
 
         $this->assertGreaterThan(0, $result->count());
         $this->assertSame(
             'red',
-            $result->current()->getMasterVariant()->getAttributes()->getByName('color')->getValueAsString()
+            $result->current()->getMasterVariant()->getAttributes()->getByName('ctp-color')->getValueAsString()
         );
     }
 }

@@ -21,6 +21,7 @@
             <file>tests/CartDiscountServiceTest.php</file>
             <file>tests/OrderServiceTest.php</file>
             <file>tests/ProductSearchServiceTest.php</file>
+            <file>tests/SubscriptionServiceTest.php</file>
         </testsuite>
     </testsuites>
 

@@ -6,3 +6,5 @@ parameters.yml
 composer.lock
 .vagrant
 parameters.env
+vendor
+.idea

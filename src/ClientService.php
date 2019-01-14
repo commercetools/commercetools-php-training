@@ -21,6 +21,7 @@ class ClientService
         $parameters = [];
         if (!isset($_SERVER['CTP_CLIENT_ID']) && file_exists(__DIR__ . '/../parameters.env')) {
             $envFile = file(__DIR__ . '/../parameters.env');
+            $envFile = array_map('trim',$envFile);
             $envVars = array_map(function ($value) { return explode("=", $value, 2); }, $envFile);
             $parameters = array_combine(
                 array_column($envVars, 0),
