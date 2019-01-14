@@ -1,7 +1,7 @@
 version: '2'
 services:
     training:
-        image: jaysde/php-test-base
+        image: jenschude/php-test-base
         volumes:
             - .:/opt/app
         working_dir: /opt/app
