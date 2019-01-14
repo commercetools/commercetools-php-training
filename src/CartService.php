@@ -2,11 +2,17 @@
 
 namespace Commercetools\Training;
 
+use Commercetools\Core\Builder\Request\RequestBuilder;
 use Commercetools\Core\Builder\Update\ActionBuilder;
 use Commercetools\Core\Model\Cart\Cart;
+use Commercetools\Core\Model\Cart\CartDraft;
+use Commercetools\Core\Model\Common\Address;
+use Commercetools\Core\Model\Common\AddressCollection;
 use Commercetools\Core\Model\Customer\Customer;
 use Commercetools\Core\Model\Product\ProductProjection;
 use Commercetools\Core\Request\Carts\CartUpdateRequest;
+use Commercetools\Core\Request\Carts\Command\CartAddDiscountCodeAction;
+use Commercetools\Core\Request\Carts\Command\CartAddLineItemAction;
 
 class CartService extends AbstractService
 {
@@ -17,7 +23,12 @@ class CartService extends AbstractService
     public function createCart(Customer $customer)
     {
         //TODO: 3.1 create cart request
-        $request = null;
+        $draft = CartDraft::ofCurrency('EUR')
+            ->setCountry('DE')
+            ->setCustomerId($customer->getId())
+            ->setShippingAddress(Address::of()->setCountry('DE'));
+
+        $request = RequestBuilder::of()->carts()->create($draft);
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);
@@ -32,7 +43,9 @@ class CartService extends AbstractService
     public function addProductToCart(ProductProjection $product, Cart $cart)
     {
         //TODO: 3.1 update cart with product
-        $request = null;
+        $request = RequestBuilder::of()->carts()->update($cart)->setActions([
+            CartAddLineItemAction::ofProductIdVariantIdAndQuantity($product->getId(), $product->getAllVariants()->current()->getId(), 1)
+        ]);
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);
@@ -46,7 +59,9 @@ class CartService extends AbstractService
     public function addDiscountToCart($code, Cart $cart)
     {
         //TODO: 5.1 add discount to cart
-        $request = null;
+        $request = RequestBuilder::of()->carts()->update($cart)->setActions([
+            CartAddDiscountCodeAction::ofCode($code)
+        ]);
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);

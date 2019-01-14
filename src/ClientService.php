@@ -13,7 +13,9 @@ class ClientService
     public function createClient()
     {
         //TODO: 1.1 instantiate client
-        return null;
+        $config = $this->loadConfig();
+
+        return Client::ofConfig($config);
     }
 
     public function loadConfig()

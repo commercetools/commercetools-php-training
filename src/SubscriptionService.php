@@ -2,11 +2,16 @@
 
 namespace Commercetools\Training;
 
+use Commercetools\Core\Builder\Request\RequestBuilder;
 use Commercetools\Core\Client;
 use Commercetools\Core\Model\Order\OrderReference;
 use Commercetools\Core\Model\Subscription\ChangeSubscription;
 use Commercetools\Core\Model\Subscription\ChangeSubscriptionCollection;
+use Commercetools\Core\Model\Subscription\Destination;
+use Commercetools\Core\Model\Subscription\MessageSubscriptionCollection;
+use Commercetools\Core\Model\Subscription\SQSDestination;
 use Commercetools\Core\Model\Subscription\Subscription;
+use Commercetools\Core\Model\Subscription\SubscriptionDraft;
 
 class SubscriptionService extends AbstractService
 {
@@ -26,7 +31,12 @@ class SubscriptionService extends AbstractService
     public function createSqsSubscription()
     {
         //TODO: 9.1 create subscription request
-        $request = null;
+        $draft = SubscriptionDraft::ofDestinationAndChanges(
+            SQSDestination::ofQueueURLAccessKeyAndSecret($this->queueUrl, $_SERVER['SQS_ACCESS_KEY'], $_SERVER['SQS_ACCESS_SECRET'])
+                ->setRegion($this->region),
+            $this->changeSubscriptionOrderChanges()
+        );
+        $request = RequestBuilder::of()->subscriptions()->create($draft);
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);

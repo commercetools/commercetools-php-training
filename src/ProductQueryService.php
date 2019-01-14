@@ -2,8 +2,11 @@
 
 namespace Commercetools\Training;
 
+use Commercetools\Core\Builder\Request\RequestBuilder;
 use Commercetools\Core\Model\Category\Category;
 use Commercetools\Core\Model\Product\ProductProjectionCollection;
+use Commercetools\Core\Model\Product\Search\Filter;
+use Commercetools\Core\Model\Product\Search\FilterSubtree;
 
 class ProductQueryService extends AbstractService
 {
@@ -15,10 +18,10 @@ class ProductQueryService extends AbstractService
     public function findCategory($locale, $name)
     {
         //TODO: 4.1 find a category
-        $request = null;
+        $request = RequestBuilder::of()->categories()->query()->where('name('.$locale.'="'.$name.'")');
 
         $response = $this->client->execute($request);
-        return $request->mapFromResponse($response);
+        return $request->mapFromResponse($response)->current();
     }
 
     /**
@@ -28,7 +31,8 @@ class ProductQueryService extends AbstractService
     public function withCategory(Category $category)
     {
         //TODO: 4.2 query products by a category
-        $request = null;
+        $request = RequestBuilder::of()->productProjections()->search()
+            ->addFilterQuery(Filter::ofName('categories.id')->setValue($category->getId()));
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);
@@ -41,6 +45,7 @@ class ProductQueryService extends AbstractService
      */
     public function findProductsWithCategory($locale, $name)
     {
-        //TODO: 4.3 find products with category name
+        $category = $this->findCategory($locale, $name);
+        return $this->withCategory($category);
     }
 }

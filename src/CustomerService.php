@@ -5,6 +5,7 @@ namespace Commercetools\Training;
 use Commercetools\Core\Builder\Request\RequestBuilder;
 use Commercetools\Core\Client;
 use Commercetools\Core\Model\Customer\Customer;
+use Commercetools\Core\Model\Customer\CustomerDraft;
 use Commercetools\Core\Model\Customer\CustomerSigninResult;
 use Commercetools\Core\Model\Customer\CustomerToken;
 
@@ -20,7 +21,11 @@ class CustomerService extends AbstractService
     public function createCustomer($email, $password)
     {
         //TODO: 2.1 create customer create request
-        $request = null;
+        $draft = CustomerDraft::ofEmailNameAndPassword(
+            $email,'', '', $password
+        );
+
+        $request = RequestBuilder::of()->customers()->create($draft);
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);
@@ -51,7 +56,7 @@ class CustomerService extends AbstractService
     public function verifyEmail(CustomerToken $customerToken)
     {
         //TODO: 2.3 create email verification request
-        $request = null;
+        $request = RequestBuilder::of()->customers()->confirmEmail($customerToken->getValue());
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);
