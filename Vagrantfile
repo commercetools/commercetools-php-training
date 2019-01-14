@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "shell", inline: <<-SHELL
        apt-get update
-       apt-get install -y php-cli php-gd php-mysql php-curl php-mbstring php-zip php-intl wget php-dom
+       apt-get install -y zip php-cli php-gd php-mysql php-curl php-mbstring php-zip php-intl wget php-dom
        wget -O composer-setup.php https://getcomposer.org/installer
        php composer-setup.php --install-dir=/usr/bin --filename=composer
 
