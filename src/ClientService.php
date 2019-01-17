@@ -4,6 +4,9 @@ namespace Commercetools\Training;
 
 use Commercetools\Core\Client;
 use Commercetools\Core\Config;
+use Commercetools\Core\Model\Common\Context;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 class ClientService
 {
@@ -12,10 +15,15 @@ class ClientService
      */
     public function createClient()
     {
-        //TODO: 1.1 instantiate client
-        return null;
+        $log = new Logger('name');
+        $log->pushHandler(new StreamHandler('./requests.log'));
+
+        return Client::ofConfigAndLogger($this->loadConfig(), $log);
     }
 
+    /**
+     * @return Config
+     */
     public function loadConfig()
     {
         $parameters = [];
@@ -34,6 +42,7 @@ class ClientService
             'project' => isset($_SERVER['CTP_PROJECT']) ? $_SERVER['CTP_PROJECT'] : $parameters['CTP_PROJECT']
         ];
 
-        return Config::fromArray($config);
+        $context = Context::of()->setLanguages(['en']);
+        return Config::fromArray($config)->setContext($context);
     }
 }

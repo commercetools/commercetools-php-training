@@ -16,13 +16,21 @@ use Commercetools\Core\Model\Common\LocalizedString;
 use Commercetools\Core\Model\Common\Money;
 use Commercetools\Core\Model\Common\MoneyCollection;
 use Commercetools\Core\Model\DiscountCode\DiscountCodeDraft;
+use Commercetools\Core\Model\Extension\AuthorizationHeaderAuthentication;
+use Commercetools\Core\Model\Extension\ExtensionDraft;
+use Commercetools\Core\Model\Extension\HttpDestination;
+use Commercetools\Core\Model\Extension\Trigger;
+use Commercetools\Core\Model\Extension\TriggerCollection;
 use Commercetools\Core\Model\Product\ProductDraft;
 use Commercetools\Core\Model\Product\ProductVariantDraft;
 use Commercetools\Core\Model\ProductType\AttributeDefinition;
 use Commercetools\Core\Model\ProductType\AttributeDefinitionCollection;
 use Commercetools\Core\Model\ProductType\ProductTypeDraft;
 use Commercetools\Core\Model\ProductType\ProductTypeReference;
-use Commercetools\Core\Model\ProductType\StringType;
+use Commercetools\Core\Model\Type\FieldDefinition;
+use Commercetools\Core\Model\Type\FieldDefinitionCollection;
+use Commercetools\Core\Model\Type\StringType;
+use Commercetools\Core\Model\Type\TypeDraft;
 use Commercetools\Core\Request\CartDiscounts\CartDiscountQueryRequest;
 use Commercetools\Core\Request\Categories\CategoryQueryRequest;
 use Commercetools\Core\Request\DiscountCodes\DiscountCodeQueryRequest;
@@ -196,5 +204,57 @@ class SetupTest extends TestCase
             $product = $productUpdateRequest->mapFromResponse($response);
         }
         $this->assertTrue(true);
+    }
+
+    public function testCreateType()
+    {
+        $this->markTestSkipped();
+        $client = (new ClientService())->createClient();
+
+        $request = RequestBuilder::of()->types()->create(
+            TypeDraft::ofKeyNameDescriptionAndResourceTypes(
+                'jenstype',
+                LocalizedString::ofLangAndText('en', 'jenstype'),
+                LocalizedString::ofLangAndText('en', 'jenstype'),
+                ['line-item']
+            )->setFieldDefinitions(
+                FieldDefinitionCollection::of()
+                    ->add(
+                        FieldDefinition::of()->setName('wrist_length')
+                            ->setLabel(LocalizedString::ofLangAndText('en', 'wrist_length'))
+                            ->setRequired(false)
+                            ->setType(StringType::of())
+                            ->setInputHint('SingleLine')
+                    )
+            )
+        );
+        $t = TypeDraft::fromArray([
+           'key' => 'jenstype'
+        ]);
+        $response = $client->execute($request);
+        $this->assertFalse($response->isError());
+    }
+
+    public function testExtension()
+    {
+        $this->markTestSkipped();
+        $client = (new ClientService())->createClient();
+
+        $request = RequestBuilder::of()->extensions()->create(
+            ExtensionDraft::ofDestinationAndTriggers(
+                HttpDestination::of()
+                    ->setUrl('')
+                    ->setAuthentication(
+                        AuthorizationHeaderAuthentication::of()
+                            ->setHeaderValue('Basic dfdfrtfdpbjpvcGVuIHNlc2FtZQ==')
+                    ),
+                TriggerCollection::of()
+                    ->add(
+                        Trigger::of()
+                            ->setActions(['Create'])
+                            ->setResourceTypeId(['cart'])
+                    )
+            )
+        );
     }
 }

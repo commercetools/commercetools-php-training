@@ -33,4 +33,25 @@ class ClientServiceTest extends TestCase
 
         $this->assertInstanceOf(Project::class, $project);
     }
+
+    public function testGraphQL()
+    {
+        $client = (new ClientService())->createClient();
+        $request = RequestBuilder::of()->graphQL()->query();
+        $request->query("query Sphere {
+  products {
+    results {
+      masterData {
+        current {
+          masterVariant {
+            id
+          }
+        }
+      }
+    }
+  }
+}")->setVariables(['test' => 'test']);
+        $response = $client->execute($request);
+        $this->assertFalse($response->isError());
+    }
 }

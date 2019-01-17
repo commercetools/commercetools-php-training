@@ -24,7 +24,8 @@ class CartServiceTest extends TestCase
 
         $this->assertInstanceOf(Cart::class, $cart);
 
-        $productRequest = RequestBuilder::of()->productProjections()->query();
+        $productRequest = RequestBuilder::of()->productProjections()->query()
+            ->where('id = "5be2514f-fce2-4688-b2a5-cf32c8cab3fb"');
         $response = $client->execute($productRequest);
         $product = $productRequest->mapFromResponse($response)->current();
 

@@ -25,7 +25,7 @@ class OrderServiceTest extends TestCase
         $customerService = new CustomerService($client);
         $cart = $cartService->createCart($customerService->createCustomer($email, "password")->getCustomer());
 
-        $productRequest = RequestBuilder::of()->productProjections()->query();
+        $productRequest = RequestBuilder::of()->productProjections()->query()->where('id = "5be2514f-fce2-4688-b2a5-cf32c8cab3fb"');
         $response = $client->execute($productRequest);
         $product = $productRequest->mapFromResponse($response)->current();
 
@@ -47,7 +47,7 @@ class OrderServiceTest extends TestCase
         $customerService = new CustomerService($client);
         $cart = $cartService->createCart($customerService->createCustomer($email, "password")->getCustomer());
 
-        $productRequest = RequestBuilder::of()->productProjections()->query();
+        $productRequest = RequestBuilder::of()->productProjections()->query()->where('id = "5be2514f-fce2-4688-b2a5-cf32c8cab3fb"');
         $response = $client->execute($productRequest);
         $product = $productRequest->mapFromResponse($response)->current();
 

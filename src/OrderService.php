@@ -2,6 +2,7 @@
 
 namespace Commercetools\Training;
 
+use Commercetools\Core\Builder\Request\RequestBuilder;
 use Commercetools\Core\Model\Cart\Cart;
 use Commercetools\Core\Model\Order\Order;
 
@@ -14,7 +15,7 @@ class OrderService extends AbstractService
     public function createOrder(Cart $cart)
     {
         //TODO: 6.1 create order request
-        $request = null;
+        $request = RequestBuilder::of()->orders()->createFromCart($cart);
 
         $response = $this->client->execute($request);
         return $request->mapFromResponse($response);

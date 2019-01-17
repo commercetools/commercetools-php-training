@@ -8,6 +8,7 @@ use Commercetools\Core\Model\Cart\Cart;
 use Commercetools\Training\CartService;
 use Commercetools\Training\ClientService;
 use Commercetools\Training\CustomerService;
+use Commercetools\Training\OrderService;
 use PHPUnit\Framework\TestCase;
 
 class CartDiscountServiceTest extends TestCase
@@ -24,14 +25,15 @@ class CartDiscountServiceTest extends TestCase
 
         $this->assertInstanceOf(Cart::class, $cart);
 
-        $productRequest = RequestBuilder::of()->productProjections()->query();
+        $productRequest = RequestBuilder::of()->productProjections()->query()
+            ->where('id = "5be2514f-fce2-4688-b2a5-cf32c8cab3fb"');
         $response = $client->execute($productRequest);
         $product = $productRequest->mapFromResponse($response)->current();
 
         $cart = $service->addProductToCart($product, $cart);
         $this->assertCount(1, $cart->getLineItems());
 
-        $cart = $service->addDiscountToCart("TESTCODE", $cart);
+        $cart = $service->addDiscountToCart("JENSRABATT", $cart);
         $this->assertCount(1, $cart->getDiscountCodes());
     }
 }

@@ -28,4 +28,20 @@ class CustomerServiceTest extends TestCase
         $customer = $service->verifyEmail($token);
         $this->assertInstanceOf(Customer::class, $customer);
     }
+
+    public function testVerifyCustomerEmail()
+    {
+        $client = (new ClientService())->createClient();
+        $service = new CustomerService($client);
+
+        $result = $service->getById("f5055386-caf7-43ad-bac5-9682e0dd56aa");
+        $this->assertInstanceOf(Customer::class, $result);
+
+        $token = $service->createEmailVerificationToken($result, 5);
+        $this->assertInstanceOf(CustomerToken::class, $token);
+
+        $customer = $service->verifyEmail($token);
+        $this->assertInstanceOf(Customer::class, $customer);
+
+    }
 }
