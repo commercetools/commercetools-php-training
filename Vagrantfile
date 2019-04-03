@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
        wget -O composer-setup.php https://getcomposer.org/installer
        php composer-setup.php --install-dir=/usr/bin --filename=composer
 
-       cp /home/vagrant/training/vagrant/60-user.ini /etc/php/7.2/cli/conf.d/
+       cp /home/vagrant/training/config/60-user.ini /etc/php/7.2/cli/conf.d/
     SHELL
 
     config.vm.provision "shell", privileged: false, inline: <<-SHELL
