@@ -1,7 +1,7 @@
 version: '2'
 services:
     training:
-        image: jenschude/php-test-base
+        image: sphereio/commercetools-php-training
         volumes:
             - .:/opt/app
         working_dir: /opt/app

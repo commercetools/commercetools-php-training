@@ -17,9 +17,15 @@ env $(cat parameters.env | xargs) vendor/bin/phpunit
 
 ### Docker
 
+Build runtime image from scratch:
+
+```bash
+docker build -t sphereio/commercetools-php-training .
+```
+
 Setup:
 ```bash
-docker run --rm -v${PWD}:/app -w /app jenschude/php-test-base composer install
+docker run --rm -v${PWD}:/app -w /app sphereio/commercetools-php-training composer install
 ```
 
 Running Training tests:
@@ -28,7 +34,7 @@ docker-compose up
 ```
 or
 ```bash
-docker run --rm  --env-file parameters.env -v${PWD}:/app -w /app jenschude/php-test-base vendor/bin/phpunit
+docker run --rm  --env-file parameters.env -v${PWD}:/app -w /app sphereio/commercetools-php-training vendor/bin/phpunit
 ```
 
 ### Vagrant
