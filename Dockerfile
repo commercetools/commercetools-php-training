@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 EXPOSE 8000
 
